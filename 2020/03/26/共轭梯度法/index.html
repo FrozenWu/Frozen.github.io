@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+<link href="https://fonts.loli.net/css?family=Noto+Serif+SC:400,500,700&display=swap&subset=cyrillic,vietnamese" rel="stylesheet">
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,监督学习,最优化算法,">
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="机器学习,监督学习,最优化算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="共轭梯度法">
+<meta property="og:url" content="http://frozenwu.github.io/2020/03/26/共轭梯度法/index.html">
+<meta property="og:site_name" content="Frozen&#39;s">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://frozenwu.github.io/2020/03/26/共轭梯度法/机器学习_Machine+Learning.svg">
+<meta property="og:image" content="http://frozenwu.github.io/2020/03/26/共轭梯度法/图片1.svg">
+<meta property="og:image" content="http://frozenwu.github.io/2020/03/26/共轭梯度法/图片2.svg">
+<meta property="og:updated_time" content="2020-05-09T17:11:48.918Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="共轭梯度法">
+<meta name="twitter:image" content="http://frozenwu.github.io/2020/03/26/共轭梯度法/机器学习_Machine+Learning.svg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://frozenwu.github.io/2020/03/26/共轭梯度法/">
+
+
+
+
+
+  <title>共轭梯度法 | Frozen's</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+  <a href="https://github.com/FrozenWu" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Frozen's</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://frozenwu.github.io/2020/03/26/共轭梯度法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fangchen Wu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Frozen's">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">共轭梯度法</h1>
+        
+
+        <div class="post-meta">
+
+            
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-26T01:55:05+08:00">
+                2020-03-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-10T01:11:48+08:00">
+                2020-05-10
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/最优化方法/" itemprop="url" rel="index">
+                    <span itemprop="name">最优化方法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="//frozenwu.github.io/2020/03/26/共轭梯度法/机器学习_Machine+Learning.svg" alt></p>
+<a id="more"></a>
+<h1 id="共轭方向-Conjugate-Direction"><a href="#共轭方向-Conjugate-Direction" class="headerlink" title="共轭方向(Conjugate Direction)"></a>共轭方向(Conjugate Direction)</h1><p>设 $A$ 为 $n$ 阶<strong>对称正定矩阵</strong>，若有一组非令向量组 $u^{(1)},u^{(2)},\cdots,u^{(n)} \in \mathbb R^n$ 满足</p>
+<script type="math/tex; mode=display">
+(u^{(i)})^{\text T}Au^{(j)}=0\quad(i\neq j; \quad i,j = 1,2,\cdots,n)</script><p>则称该向量组为 $A$ 共轭。若 $A=I$ 则上述条件即为通常的正交条件。因此可以将 $A$ 共轭的概念视为正交概念的推广。</p>
+<p>若向量组 $u^{(1)},u^{(2)},\cdots,u^{(n)} $ 为 $A$ 共轭的非零向量，则可证这一组向量线性独立。</p>
+<p> $n$ 阶对称正定矩阵 $A$ 的特征向量组为 $A$ 共轭。</p>
+<p>比如</p>
+<p><img src="//frozenwu.github.io/2020/03/26/共轭梯度法/图片1.svg" style="zoom: 60%;"></p>
+<p>上图就是关于某一对称正定矩阵 $A$ 共轭的两个向量 $u,v$，记为 $\langle u,v \rangle_A$。可以看出向量 $u,v$ 关于某条对称轴对称，则它们经过正交变换的向量 $Au,Av$ 也关于这条对称轴对称。这可能就是“共轭”的几何含义吧。</p>
+<p>既然 $A$ 的某一完备的共轭的向量组 $u<em>{1},u</em>{2},\cdots,u_{n} $ 线性无关，那么任一向量 $\mathbb x \in \mathbb R^n$ 都可以用这组向量表示，有</p>
+<script type="math/tex; mode=display">
+\mathbb x = \sum_{i=1}^n \alpha_iu^{(i)}</script><p>将上式左右同乘 $u_{k}^TA$，有</p>
+<script type="math/tex; mode=display">
+\begin{align}
+u_{k}^TA\mathbf x &=  u_{k}^TA \sum_{i=1}^n \alpha_iu_{i}\\
+&=\alpha_ku_{k}^TA  u_{k}
+\end{align}</script><p>可得</p>
+<script type="math/tex; mode=display">
+\alpha_k = \frac{u_{k}^TA\mathbf x  }{u_{k}^TAu_{k}}</script><p>进而可得 $\mathbb x$ 表达式</p>
+<script type="math/tex; mode=display">
+\mathbb x = \sum_{i=1}^n \frac{u_{i}^TA\mathbf x}{u_{i}^TA  u_{i}}u_i</script><p>如果有方程组 $A\mathbf x = b$，且 $A$ 存在共轭的向量组 $u<em>{1},u</em>{2},\cdots,u_{n} $，那么对满足方程组的解 $\mathbf x$，会有</p>
+<script type="math/tex; mode=display">
+\mathbb x = \sum_{i=1}^n \frac{u_{i}^TA\mathbf x}{u_{i}^TA  u_{i}}u_i = \sum_{i=1}^n \frac{u_{i}^Tb}{u_{i}^TA  u_{i}}u_i</script><h1 id="共轭梯度法-Conjugate-Gradient"><a href="#共轭梯度法-Conjugate-Gradient" class="headerlink" title="共轭梯度法(Conjugate Gradient)"></a>共轭梯度法(Conjugate Gradient)</h1><p>共轭梯度算法用于处理无约束的多元二次函数的极小值</p>
+<script type="math/tex; mode=display">
+f(x) = \frac 1 2x^\text TAx+b^\text Tx+c</script><p>其中 $x,b\in \mathbb R^n$；A为对称正定矩阵，$A\in \mathbb R^{n\times n}$；$c$ 为常数。</p>
+<p>刚在接触这个算法的时候一脸懵逼，哪来的这么好的式子让我求解？哪来的刚好对称正定的方阵？要解释这个问题，以及这个式子代表着什么，还得联系着牛顿法，将两种方法串联起来。</p>
+<p>说到牛顿法，这个问题我也想了好久，到底这个关键的<strong>二阶泰勒展开</strong>到底是什么意思？到底能近似到什么程度？关于这个问题想要继续讨论，可以花些时间看一下 <a href="https://www.bilibili.com/video/BV1Gx411Y7cz?from=search&amp;seid=4607409998061513423" target="_blank" rel="noopener">这个视频</a>👈，简单来说</p>
+<script type="math/tex; mode=display">
+f(x) \approx f(x_k) + f'(x_k)(x-x_k) + \frac {f''(x_{k})}{2}(x-x_k)^2</script><p>是在 $x_k$ 点附近关于 $f(x)$ 的一阶以及二阶导数的大小变化进行提取，并且赋给一个二次曲线，这个二次曲线可以在某些区间内完美的模拟原函数 $f(x)$ 的一、二阶导数的变化情况。当然，关于比较复杂的函数，这种低阶展开的对曲线的模拟效果不是很好，只能在展开点的附近才能有较小的误差。而关于牛顿法，因为牛顿法可以完美解决二次函数极小值的求解问题，所以牛顿法就需要用到目标函数 $f(x)$ 的二阶泰勒展开啦。</p>
+<p>再来看在 $x_k$ 点处二阶泰勒展开的矩阵形式</p>
+<script type="math/tex; mode=display">
+f(x) = f(x_k) + \nabla f(x_k)^\text T(x-x_k) + \frac 1 2 (x-x_k)^\text TH(x_{k})(x-x_k)</script><p>是不是很像共轭梯度法要解决的二次函数</p>
+<script type="math/tex; mode=display">
+f(x) = c+b^\text Tx+\frac 1 2x^\text TAx</script><p>其实牛顿法的本质就是用二次曲线来拟合目标函数的某一局部，并求出最优点 $x^*$。而共轭梯度法可以被视作基于这一思想的另一种算法。海塞矩阵 $H$ 正定可以保证 $f(x)$ 存在极小点，这似乎可以解释为什么共轭梯度法上来就让我们算这么奇怪的式子。（别忘了，任何一个多元函数二次项都可以写成带有对称矩阵 $A$ 的 $x^\text TAx$ 形式）</p>
+<p>已知牛顿法的表达式</p>
+<script type="math/tex; mode=display">
+x_{k+1} = x_k -H^{-1}(x_k) \cdot \nabla f(x_k)</script><p>都知道这个算法中 $-H^{-1}(x_k) \cdot \nabla f(x_k)$ 计算困难，那么令 $d = H^{-1}(x_k) \cdot \nabla f(x_k)$ ，则有</p>
+<script type="math/tex; mode=display">
+H(x_k)\cdot d = -\nabla f(x_k)</script><p>如果有 $H$ 的共轭的向量组 $u<em>{1},u</em>{2},\cdots,u_{n} $，类比共轭方向解方程组，有</p>
+<script type="math/tex; mode=display">
+d =  \sum_{i=1}^n -\frac{u_{i}^T\nabla f(x_k)}{u_{i}^TH  u_{i}}u_i</script><p>别忘了，我们现在求解的是二次函数，使用牛顿法一步就能就解决问题，有</p>
+<script type="math/tex; mode=display">
+\begin{align}
+x^* &= x_0 - H^{-1} \nabla f(x_0)\\
+&= x_0+d\\
+&= x_0 + \sum_{i=1}^n \frac{u_{i}^T\nabla f(x_0)}{u_{i}^TH  u_{i}}u_i
+\end{align}</script><p>将式子展开</p>
+<script type="math/tex; mode=display">
+x^* =  x_0 + \sum_{i=1}^n \frac{u_{i}^T\nabla f(x_0)}{u_{i}^TH  u_{i}}u_i</script><p>上式也可以可以换一种表达形式：</p>
+<p>假设有一组 $H$ 的共轭的向量组 $u<em>{1},u</em>{2},\cdots,u_{n} $，可以写出迭代式</p>
+<script type="math/tex; mode=display">
+x_k = x_0 + \beta_1u_1 + \beta_2u_2+\dots+\beta_ku_k</script><p>那么最优解就可以用 $n$ 次迭代之后的迭代式来表示</p>
+<script type="math/tex; mode=display">
+x^* = x_0 + \beta_1u_1 + \beta_2u_2+\dots+\beta_nu_n</script><p>上式如果除去 $x_0$ 项明显是一个方程组，那么 $\beta_k$ 可以用共轭向量法求解出来，有</p>
+<script type="math/tex; mode=display">
+\beta_k = \frac{u_{k}^TH(x^*-x_0)}{u_{k}^TH  u_{k}}</script><p>令 $x^<em>-x_0 = (x^</em>-x<em>{k-1})+(x</em>{k-1}-x_0)$，则</p>
+<script type="math/tex; mode=display">
+\begin{align}
+u_{k}^TH(x^*-x_0) &= u_{k}^TH(x^*-x_{k-1})+u_{k}^TH(x_{k-1}-x_0)\\
+&= u_{k}^TH(x^*-x_{k-1}) + u_k^TH(\beta_1u_1+\beta_2u_2+\cdots+\beta_{k-1}u_{k-1})\\
+&= u_{k}^TH(x^*-x_{k-1})
+\end{align}</script><p>根据 </p>
+<script type="math/tex; mode=display">
+f(x) = f(x_k) + \nabla f(x_k)^\text T(x-x_k) + \frac 1 2 (x-x_k)^\text TH(x-x_k)</script><p>对其求导，并且将 $x^*$ 代入式子中</p>
+<script type="math/tex; mode=display">
+\nabla f(x^*) = \nabla f(x_k) +H(x^*-x_k)=0</script><p>将其代入 $u_{k}^TH(x^*-x_0)$，得</p>
+<script type="math/tex; mode=display">
+\begin{align}
+u_{k}^TH(x^*-x_0) &= u_{k}^TH(x^*-x_{k-1})\\
+&= -u_{k}^T\nabla f(x_{k-1})
+\end{align}</script><p>也那么</p>
+<script type="math/tex; mode=display">
+\beta_k = \frac{u_{k}^TH(x^*-x_0)}{u_{k}^TH  u_{k}} = -\frac{u_{k}^T\nabla f(x_{k-1})}{u_{k}^TH  u_{k}}</script><p>怎么回事？由于是同一组基，那么势必 $\alpha_k = \beta_k$，那也就代表着</p>
+<script type="math/tex; mode=display">
+u_{k}^T\nabla f(x_{k-1}) = u_{k}^T\nabla f(x_0)</script><p>我们可以将 $\nabla f(x_k)$ 拆解</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\nabla f(x_k) &= -H(x^*-x_{k})\\
+&= -H(x^*-(x_{k-1}+H\beta_ku_k))\\
+&= \nabla f(x_{k-1})+H\beta_ku_k\\
+&= \nabla f(x_{k-2})+H\beta_{k-1}u_{k-1}+H\beta_ku_k\\
+&= \dots\\
+&= \nabla f(x_{0})+H\sum_{i=1}^k\beta_iu_i\\
+\end{align}</script><p>这样我们就可以得出一个递推式，不仅能解决上面的问题，如果我们将 $\nabla f(x_k)$ 左乘 $x_k^\text T$，会有</p>
+<script type="math/tex; mode=display">
+\begin{align}
+u_k^\text T\nabla f(x_k) &= u_k^\text T\nabla f(x_{0})+u_k^\text TH\sum_{i=1}^k\beta_iu_i\\
+&= -u_k^\text TH(x^*-x_0) + \beta_ku_k^\text THu_k\\
+&= -\beta_ku_k^\text THu_k + \beta_ku_k^\text THu_k\\
+&= 0
+\end{align}</script><p>也就是说，点 $x_k$ 处的梯度与第 $k$ 次的搜索方向正交。</p>
+<p>如果将 $f(x<em>k)$ 写成 $f(x</em>{k-1}+\beta_ku_k)$，那么如果需要求在 $u_k$ 方向的最优步长，即</p>
+<script type="math/tex; mode=display">
+\min_{\beta_k}f(x_{k-1}+\beta_ku_k)</script><p>需要对 $f(x_k)$ 求偏导</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\frac{\partial f(x_{k-1}+\beta_ku_k)}{\partial \beta_k} &= u_k^\text T\nabla f(x_{k})= 0
+\end{align}</script><p>得到了同样的结论。在解释之前，先看下面一幅图</p>
+<p><img src="//frozenwu.github.io/2020/03/26/共轭梯度法/图片2.svg" style="zoom:67%;"></p>
+<p>以目标函数 $f(x) = x<em>1^2 + x_2^2$ 为例，在沿着 $u_1$ 方向搜索时，选择了在这个方向上的最优解，也就是 $\min</em>{\beta_1}f(x_0+\beta_1u_1)$，这样也就注定点 $x_1$ 处的斜率不会再 $u_1$ 方向的分量上还有偏移。这与我们刚开始提出的方程组的结果 $\alpha$ 不谋而合。</p>
+<p>那么另一个问题出现了，上哪里去找一组关于 $H$ 的共轭向量呢？在线性代数中有提到过一个向量正交化的过程：<strong>Gram-Schmidt 正交化</strong></p>
+<p>施密特正交化中的<strong>投影算子</strong>是正交化的关键，投影算子 $\text{proj}_u(v)$ 来表示向量 $v$ 在向量 $u$ 方向上的分量</p>
+<script type="math/tex; mode=display">
+\text{proj}_u(v) = \frac{\langle v,u \rangle}{\langle u,u \rangle}u</script><p>这样，我们就可以根据一组向量 $v<em>{1},v</em>{2},\cdots,v<em>{n} $ 来得到一组正交基 $u</em>{1},u<em>{2},\cdots,u</em>{n} $：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+u_1 &= v_1\\
+u_2 &= v_2 - \frac{\langle v_2,u_1 \rangle}{\langle u_1,u_1 \rangle}u_1\\
+u_3 &= v_3 - \frac{\langle v_3,u_1 \rangle}{\langle u_1,u_1 \rangle}u_1-\frac{\langle v_3,u_2 \rangle}{\langle u_2,u_2 \rangle}u_2\\
+\cdots\\
+u_k &= v_k - \sum_{i=1}^{k-1}\frac{\langle v_k,u_i \rangle}{\langle u_i,u_i \rangle}u_i
+\end{align}</script><p>上面这个过程我们应该很熟悉了。同样的，可以根据一组向量 $v<em>{1},v</em>{2},\cdots,v<em>{n} $ 来得到一组关于 $A$ 的共轭向量 $u</em>{1},u<em>{2},\cdots,u</em>{n} $：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+u_1 &= v_1\\
+u_2 &= v_2 - \frac{\langle v_2,u_1 \rangle_A}{\langle u_1,u_1 \rangle_A}u_1\\
+u_3 &= v_3 - \frac{\langle v_3,u_1 \rangle_A}{\langle u_1,u_1 \rangle_A}u_1-\frac{\langle v_3,u_2 \rangle_A}{\langle u_2,u_2 \rangle_A}u_2\\
+\cdots\\
+u_k &= v_k - \sum_{i=1}^{k-1}\frac{\langle v_k,u_i \rangle_A}{\langle u_i,u_i \rangle_A}u_i
+\end{align}</script><p> 我们以 $f(x_0)$ 的负梯度方向作为初始方向，有搜索方向的迭代式</p>
+<script type="math/tex; mode=display">
+u_k = -\nabla f(x_{k-1}) + \sum_{i=1}^{k-1}\gamma_iu_i,\quad\gamma_i^k =\frac{\langle \nabla f(x_{k-1}),u_i \rangle_H}{\langle u_i,u_i \rangle_H}</script><p>这样还是有点太复杂了，随着迭代步数的增多，计算次数也会不断上涨，能不能再简化一下呢？</p>
+<p>我们定义残差 $e_k = x_k-x^*$，有</p>
+<script type="math/tex; mode=display">
+\begin{align}
+e_k &= x_k-x^*\\
+&=\left(x_0 +\sum_{i=1}^k\beta_iu_i\right) - \left(x_0 +\sum_{i=1}^n\beta_iu_i\right)\\
+&= \sum_{i=k+1}^n\beta_iu_i
+\end{align}</script><p>这样我们可以得出一个结论：前 $k$ 步的<strong>搜索方向均与残差 $e_k$ 关于 $H$ 共轭</strong>，即</p>
+<script type="math/tex; mode=display">
+u_i^\text THe_k = 0,\quad i=1,2,\dots,k</script><p>又因为 $H(x_k-x^*) = \nabla f(x_k)$，代入上式</p>
+<script type="math/tex; mode=display">
+\begin{align}
+0&=u_i^\text THe_k\\
+& = u_i^\text T\nabla f(x_k)\\
+&=  -\nabla f(x_k)^\text T\nabla f(x_i) - \sum_{j=1}^{i-1}\gamma_j^i \nabla f(x_k)^\text Tu_j\\
+&=  -\nabla f(x_k)^\text T\nabla f(x_i),\quad i=1,2,\dots,k
+\end{align}</script><p>这样我们就得出了第二个结论：<strong>梯度方向相互正交</strong></p>
+<p>在共轭梯度法迭代过程中有迭代式</p>
+<script type="math/tex; mode=display">
+x_{k} = x_{k-1}+\beta_{k}u_{k}</script><p>左右同减 $x^*$ 再左乘 $H$，有</p>
+<script type="math/tex; mode=display">
+\begin{align}
+H(x_{k}-x^*) &= H(x_{k-1}-x^*) + \beta_{k}Hu_{k}\\
+\nabla f(x_k)&= \nabla f(x_{k-1}) + \beta_{k}Hu_{k}
+\end{align}</script><p>那么</p>
+<script type="math/tex; mode=display">
+Hu_k = \frac 1 \beta_k(\nabla f(x_k) - \nabla f(x_{k-1}))</script><p>左乘 $\nabla f(x_i)^\text T$，根据梯度方向相互正交，</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\nabla f(x_i)^\text THu_k &= \frac 1 \beta_k(\nabla f(x_i)^\text T\nabla f(x_k) - \nabla f(x_i)^\text T\nabla f(x_{k-1}))\\
+&=
+\begin{cases}
+-\frac 1 \beta_k\nabla f(x_{k-1})^\text T\nabla f(x_{k-1}) ,&i=k-1\\
+\frac 1 \beta_k\nabla f(x_k)^\text T\nabla f(x_k) ,&i=k\\
+0,&\text {otherwise}
+\end{cases}
+\end{align}</script><p>我们再来看搜索方向的迭代式系数</p>
+<script type="math/tex; mode=display">
+\gamma_i^k =\frac{\langle \nabla f(x_{k-1}),u_i \rangle_H}{\langle u_i,u_i \rangle_H} =
+\frac{\nabla f(x_{k-1})^\text THu_i}{u_i^\text THu_i}</script><p>当 $k &lt; i-1$ 时，$\gamma_i^k = 0$，那么</p>
+<script type="math/tex; mode=display">
+\begin{align}
+u_k &= -\nabla f(x_{k-1}) + \sum_{i=1}^{k-1}\gamma_i^{k}u_i\\
+&= -\nabla f(x_{k-1})+\gamma_{k-1}^{k}u_{k-1}\\
+&= -\nabla f(x_{k-1})+\frac{\nabla f(x_{k-1})^\text THu_{k-1}}{u_{k-1}^\text THu_{k-1}}u_{k-1}\\
+&=-\nabla f(x_{k-1})+\frac{\nabla f(x_{k-1})^\text T\nabla f(x_{k-1})}{\beta_ku_{k-1}^\text THu_{k-1}}u_{k-1}
+\end{align}</script><p>由此可以看出，根据 Gram-Schmidt 方法，第 $k$ 个共轭向量只与第 $k-1$ 个共轭向量有关系，关于共轭向量的计算被大大的简化了。 </p>
+<hr>
+<p>我现在连海塞矩阵 $H$ 也不想求，有没有进一步简化的方法呢？可以看 👉 <a href="https://www.bilibili.com/video/BV1jE411u7bx" target="_blank" rel="noopener">这个视频</a>（感谢 path-int 老师！）</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"><i class="fa fa-tag"></i> 机器学习</a>
+          
+            <a href="/tags/监督学习/" rel="tag"><i class="fa fa-tag"></i> 监督学习</a>
+          
+            <a href="/tags/最优化算法/" rel="tag"><i class="fa fa-tag"></i> 最优化算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/18/熵/" rel="next" title="熵">
+                <i class="fa fa-chevron-left"></i> 熵
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/27/雅可比矩阵/" rel="prev" title="雅可比矩阵">
+                雅可比矩阵 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar1.jpg" alt="Fangchen Wu">
+            
+              <p class="site-author-name" itemprop="name">Fangchen Wu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/FrozenWu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:lalalafrozen@live.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/2881393720" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/wufangchen95" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#共轭方向-Conjugate-Direction"><span class="nav-number">1.</span> <span class="nav-text">共轭方向(Conjugate Direction)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#共轭梯度法-Conjugate-Gradient"><span class="nav-number">2.</span> <span class="nav-text">共轭梯度法(Conjugate Gradient)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fangchen Wu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">全站字数统计&#58;</span>
+    
+    <span title="全站字数统计">57.2k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

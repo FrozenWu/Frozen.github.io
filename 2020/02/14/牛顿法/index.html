@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+<link href="https://fonts.loli.net/css?family=Noto+Serif+SC:400,500,700&display=swap&subset=cyrillic,vietnamese" rel="stylesheet">
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,最优化算法,回归,">
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="机器学习,最优化算法,回归">
+<meta property="og:type" content="article">
+<meta property="og:title" content="牛顿法">
+<meta property="og:url" content="http://frozenwu.github.io/2020/02/14/牛顿法/index.html">
+<meta property="og:site_name" content="Frozen&#39;s">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://frozenwu.github.io/2020/02/14/牛顿法/机器学习_Machine+Learning.svg">
+<meta property="og:image" content="http://frozenwu.github.io/2020/02/14/牛顿法/图片0.svg">
+<meta property="og:image" content="http://frozenwu.github.io/2020/02/14/牛顿法/图片1.svg">
+<meta property="og:updated_time" content="2020-04-25T05:59:02.603Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="牛顿法">
+<meta name="twitter:image" content="http://frozenwu.github.io/2020/02/14/牛顿法/机器学习_Machine+Learning.svg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://frozenwu.github.io/2020/02/14/牛顿法/">
+
+
+
+
+
+  <title>牛顿法 | Frozen's</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+  <a href="https://github.com/FrozenWu" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Frozen's</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://frozenwu.github.io/2020/02/14/牛顿法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fangchen Wu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Frozen's">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">牛顿法</h1>
+        
+
+        <div class="post-meta">
+
+            
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-14T15:22:55+08:00">
+                2020-02-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-04-25T13:59:02+08:00">
+                2020-04-25
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/最优化方法/" itemprop="url" rel="index">
+                    <span itemprop="name">最优化方法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="//frozenwu.github.io/2020/02/14/牛顿法/机器学习_Machine+Learning.svg" alt></p>
+<a id="more"></a>
+<h1 id="牛顿法-Newton-Method"><a href="#牛顿法-Newton-Method" class="headerlink" title="牛顿法(Newton Method)"></a>牛顿法(Newton Method)</h1><p>牛顿法其实是一个寻找函数的根的方法，而后运用到优化问题中。主要是运用泰勒级数的知识来寻找一个可导函数 $f(x)=0$ 的根。</p>
+<p>将函数 $f(x)$ 在 $x_0$ 处展开成带皮亚诺余项的泰勒展开式：</p>
+<script type="math/tex; mode=display">
+f(x) = f(x_0) + f'(x_0)(x-x_0)+o(x)</script><p>取前两项，作为 $f(x)$ 的近似，那么就可以用</p>
+<script type="math/tex; mode=display">
+f(x_0) + f'(x_0)(x-x_0)=0</script><p>的解来近似 $f(x)$ 的解，求得的解为</p>
+<script type="math/tex; mode=display">
+x_1 = x_0-\frac{f(x_0)}{f'(x_0)}</script><p>如下图：</p>
+<p><img src="//frozenwu.github.io/2020/02/14/牛顿法/图片0.svg" style="zoom: 70%;"></p>
+<p>由于函数只有一阶展开，求解处的值离真实的根还有一定的差距，但是已经很接近结果了，我们只需要再将 $f(x)$ 在 $x_1$ 处泰勒展开，重复以上的步骤，那么就会得到比 $x_1$ 更加接近的解 $x_2$。</p>
+<p><img src="//frozenwu.github.io/2020/02/14/牛顿法/图片1.svg" style="zoom: 70%;"></p>
+<p>只要我们重复上述的步骤，循环迭代 $n$ 次，就会得到近似解 $x_n$</p>
+<script type="math/tex; mode=display">
+x_n =x_{n-1}-\frac{f(x_{n-1})}{f'(x_{n-1})}</script><h1 id="利用牛顿法求解最优化问题"><a href="#利用牛顿法求解最优化问题" class="headerlink" title="利用牛顿法求解最优化问题"></a>利用牛顿法求解最优化问题</h1><p>对于一求个无约束的最优化问题 $\min_{\mathbf x}  f(\mathbf x),\mathbf x\in \mathbb R^n$ 的最优解，可以将其转换为求解其梯度等于 $0$ 时的根，即 $\nabla f(\mathbf x)=0$。你看，这就可以利用牛顿法求解最优化问题啦。</p>
+<p>采用牛顿法求解的迭代式为：</p>
+<script type="math/tex; mode=display">
+\mathbf x_{k+1} = \mathbf x_k -H^{-1}(\mathbf x_k) \cdot \nabla f(\mathbf x_k)</script><p>这个 $H(\mathbf x)$ 是海塞矩阵，用来描述一个多元函数二阶导数。</p>
+<h2 id="海塞矩阵-Hessian-Matrix"><a href="#海塞矩阵-Hessian-Matrix" class="headerlink" title="海塞矩阵(Hessian Matrix)"></a>海塞矩阵(Hessian Matrix)</h2><p>对于一个<strong>多元函数 </strong>$f(x_1,x_2,\dots,x_n)$，如果函数的<strong>二阶</strong>导数都存在，则定义 $f$ 的海塞矩阵为</p>
+<script type="math/tex; mode=display">
+H(f)=
+\begin{pmatrix}
+\frac{\partial^2f}{\partial x_1^2} & \frac{\partial^2f}{\partial x_1 \partial x_2} & \cdots &  \frac{\partial^2f}{\partial x_1 \partial x_n} \\
+\frac{\partial^2f}{\partial x_2 \partial x_1} & \frac{\partial^2f}{\partial x_2^2} & \cdots &  \frac{\partial^2f}{\partial x_1 \partial x_n} \\
+\vdots & \vdots & \ddots & \vdots
+\\
+\frac{\partial^2f}{\partial x_n \partial x_1} & \frac{\partial^2f}{\partial x_n \partial x_2} & \cdots &  \frac{\partial^2f}{\partial x_n^2} \\
+\end{pmatrix}</script><p>如果多元函数 $f(x_1,x_2,\dots,x_n)$ 二阶连续可导，并且在某一点 $\alpha(x_1’,x_2’,\dots,x_n’)$ 处梯度为 $0$，即$\nabla f(\alpha)=0$，那么点 $\alpha$ 为函数驻点，但不能判断该点是否为极小值。通过之前学习的知识，此时需要对函数求二阶导。</p>
+<p>记 $f$ 在点 $\alpha$ 处的海塞矩阵为 $H(\alpha)$，因为 </p>
+<script type="math/tex; mode=display">
+\frac{\partial^2f}{\partial x_i \partial x_j}=\frac{\partial^2f}{\partial x_j \partial x_i}</script><p>那么海塞矩阵是一个<strong>对称矩阵</strong>，对于  $H(\alpha)$，有以下结论</p>
+<ul>
+<li>如果 $H(\alpha)$ 是正定矩阵，则驻点 $\alpha$ 为极小值点</li>
+<li>如果 $H(\alpha)$ 是负定矩阵，则驻点 $\alpha$ 为极大值点</li>
+<li>如果 $H(\alpha)$ 是不定矩阵，则驻点 $\alpha$ 不是极值点</li>
+</ul>
+<hr>
+<p>因为牛顿法在进行迭代时运用了二阶导数，也就是说用二次曲线连模拟点 $\mathbf x_k$，一步便可以找到二次曲线的极值点，所以下降的速度比起梯度下降法更快，能更容易地找到答案；但由于 $H^{-1}(\mathbf x_k)$ 难于求解，难于操作，于是一种牛顿法的优化方法便出现了，就是下面提到的拟牛顿法。</p>
+<h1 id="LM-修正牛顿法"><a href="#LM-修正牛顿法" class="headerlink" title="LM 修正牛顿法"></a>LM 修正牛顿法</h1><p>Levenberg-Marquardt 修正牛顿法主要着手于处理  $H^{-1}(\mathbf x_k)$  为不可逆的情况，令</p>
+<script type="math/tex; mode=display">
+G(\mathbb x_k) = H(\mathbf x_k) + \mu I</script><p>使 $\mu$ 充分大，则 $G(\mathbf x_k)$ 的特征值 $\lambda_i + \mu$ 均大于 $0$。</p>
+<p>当 $\mu \to \infty$ 时， $H^{-1}(\mathbf x_k) \cdot \nabla f(\mathbf x_k)$  趋近于 $\frac 1 \mu \nabla f(\mathbf x_k)$，那么该法就趋近于梯度下降法。</p>
+<h1 id="高斯-牛顿法-Gauss-Newton-Method"><a href="#高斯-牛顿法-Gauss-Newton-Method" class="headerlink" title="高斯-牛顿法(Gauss-Newton Method)"></a>高斯-牛顿法(Gauss-Newton Method)</h1><p>高斯-牛顿法是用来解非线性的最小二乘问题。设有 $m$ 个样本点 ${ (x^{(1)},y^{(1)}),(x^{(2)},y^{(2)}),\cdots,(x^{(m)},y^{(m)}) }$，$x^{(i)}\in \mathbb R^n$，用于训练一个可以用来预测的函数 $f_\theta(x)$。</p>
+<p>有别于其他模型，这里我们特别地记 $f_i(x)=f(x^{(i)};\theta)$ 。有损失函数：</p>
+<script type="math/tex; mode=display">
+L(\theta) = \sum_{i=1}^m(f_i(\theta) - y^{(i)})^2</script><p>上式对 $\theta_j$ 进行求导，有</p>
+<script type="math/tex; mode=display">
+\frac{\partial L}{\partial \theta_j} = \sum_{i=1}^m\left[2(f_i(\theta) - y^{(i)})\frac{\partial f_i}{\partial\theta_j}\right]</script><p>写成向量和矩阵形式：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\nabla L(\theta) &= 
+\begin{pmatrix}
+\frac{\partial L}{\partial \theta_1}\\
+\frac{\partial L}{\partial \theta_2}\\
+\vdots\\
+\frac{\partial L}{\partial \theta_n}
+\end{pmatrix} =2
+\begin{pmatrix}
+\frac{\partial f_1}{\partial \theta_1} & \frac{\partial f_2}{\partial \theta_1} & \cdots&\frac{\partial f_m}{\partial \theta_1}\\
+\frac{\partial f_1}{\partial \theta_2} & \frac{\partial f_2}{\partial \theta_2} & \cdots&\frac{\partial f_m}{\partial \theta_2}\\
+\vdots & \vdots & \ddots & \vdots\\
+\frac{\partial f_1}{\partial \theta_n} & \frac{\partial f_2}{\partial \theta_n} & \cdots&\frac{\partial f_m}{\partial \theta_n}
+\end{pmatrix} 
+\begin{pmatrix}
+(f_1(\theta) - y^{(1)})\\
+(f_2(\theta) - y^{(2)})\\
+\vdots\\
+(f_m(\theta) - y^{(m)})
+\end{pmatrix} \\
+&=2J^Tr
+\end{align}</script><p>其中 $J$ 为 $f(x;\theta)$ 关于 $\theta$ 的雅可比矩阵，$\mathbf r$ 为样本与模型的残差。</p>
+<p>接下来我们根据已经求得的梯度，更进一步求海森矩阵的元素 $h_{jk}$</p>
+<script type="math/tex; mode=display">
+\begin{align}
+h_{jk} &= \frac{\partial^2 L}{\partial\theta_j\theta_k}\\
+&=\frac{\partial}{\partial\theta_j}\left(\sum_{i=1}^m\left[2(f_i(\theta) - y^{(i)})\frac{\partial f_i}{\partial\theta_k}\right]\right)\\
+&= 2\sum_{i=1}^m \left( \frac{\partial f_i}{\partial\theta_j}\frac{\partial f_i}{\partial\theta_k} + (f_i(\theta) - y^{(i)})\frac{\partial^2 f_i}{\partial\theta_j\theta_k} \right)
+\end{align}</script><p>同样的，写成矩阵形式</p>
+<script type="math/tex; mode=display">
+H(\theta) = 2(J^TJ+S)</script><p>其中</p>
+<script type="math/tex; mode=display">
+s_{ij} = \sum_{i=1}^m(f_i(\theta) - y^{(i)})\frac{\partial^2 f_i}{\partial\theta_j\theta_k}</script><p>在迭代过程中，由于残差项很小，往往（?）在迭代过程中可以忽略，则我们找到了一个新的矩阵 $J^TJ$ 来代替海塞矩阵 $H$，回归到求解 $\mathbf x$ 的问题，得到迭代式</p>
+<script type="math/tex; mode=display">
+\mathbf x_{k+1} = \mathbf x_k -(J^TJ)^{-1}  J^T\mathbf r</script><h1 id="拟牛顿法-Quasi-Newton-Methods"><a href="#拟牛顿法-Quasi-Newton-Methods" class="headerlink" title="拟牛顿法(Quasi-Newton Methods)"></a>拟牛顿法(Quasi-Newton Methods)</h1><p>由于海塞矩阵矩阵不一定可逆，而且求矩阵逆的复杂度较高，所以引入了拟牛顿法。拟牛顿法其实就是准找可以替代矩阵 $H^{-1}(\mathbf x_k)$ 的方法。</p>
+<p>我们对 $\nabla f(\mathbf x)$ 在 $x_k$ 点处做一阶泰勒展开：</p>
+<script type="math/tex; mode=display">
+\nabla f(\mathbf x) = \nabla f(\mathbf x_k) + H(\mathbf x_{k})\cdot(\mathbf x-\mathbf x_k)</script><blockquote>
+<p>或者说对 $f(\mathbf x)$ 在 $x_k$ 点处做二阶泰勒展开：</p>
+<script type="math/tex; mode=display">
+f(\mathbf x) = f(\mathbf x_k) + (\mathbf x-\mathbf x_k)^T\nabla f(\mathbf x_k) + \frac 1 2 (\mathbf x-\mathbf x_k)^TH(\mathbf x_{k})(\mathbf x-\mathbf x_k)</script><p>并对其求导。</p>
+</blockquote>
+<p>取 $\mathbf x = \mathbf x_{k+1}$ 有：</p>
+<script type="math/tex; mode=display">
+\nabla f(\mathbf x_{k+1})-\nabla f(\mathbf x_k) = H(\mathbf x_k)\cdot(\mathbf  x_{k+1}-\mathbf x_k)</script><p>记 $\mathbf y<em>k = \nabla f(\mathbf x</em>{k+1})-\nabla f(\mathbf x<em>k)$，$\delta_k = \mathbf  x</em>{k+1}-\mathbf x_k$，有：</p>
+<script type="math/tex; mode=display">
+\mathbf y_k = H(\mathbf x_k) \cdot \delta_k</script><p>上式被称为<strong>拟牛顿条件</strong>。根据对矩阵 $H^{-1}(\mathbf x_k)$ 或者 $H(\mathbf x_k)$ 估计方法的不同，拟牛顿法可以分为以下的几种：</p>
+<h2 id="DFP-变尺度法"><a href="#DFP-变尺度法" class="headerlink" title="DFP 变尺度法"></a>DFP 变尺度法</h2><p>DFP 方法采用矩阵 $G(\mathbf x_k)$ 来对 $H^{-1}(\mathbf x_k)$ 进行近似，最早是由 Davidon 提出，后经 Fletcher 和 Powell 解释和改进，在命名时以三个人名字的首字母命名。</p>
+<p>在 DFP 方法中，假设迭代式：</p>
+<script type="math/tex; mode=display">
+G(\mathbf x_{k+1}) = G(\mathbf x_{k}) + \Delta G(\mathbf x_{k})</script><p>其中 $G(\mathbf x_{k})$ 是正定的，令</p>
+<script type="math/tex; mode=display">
+\Delta G_k = \alpha u_ku_k^T + \beta v_kv_k^T, \quad u_k,v_k \in \mathbb R^n</script><p>代入上上式可得</p>
+<script type="math/tex; mode=display">
+G(\mathbf x_{k+1}) = G(\mathbf x_{k}) + \alpha u_ku_k^T + \beta v_kv_k^T</script><p>已知有 $ H^{-1}(\mathbf x_k) \cdot \mathbf y_k =\delta_k$，则</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\delta_k =& G(\mathbf x_{k})\mathbf y_k + \alpha u_ku_k^T\mathbf y_k + \beta v_kv_k^T\mathbf y_k\\
+ =& G(\mathbf x_{k})\mathbf y_k + \alpha (u_k^T\mathbf y_k)u_k + \beta (v_k^T\mathbf y_k)v_k
+\end{align}</script><p>可知 $u_k^T\mathbf y_k,v_k^T\mathbf y_k$ 为数，我们设 $u_k = r\delta_k$， $v_k = \theta G(\mathbf x_k)\mathbf y_k$，有</p>
+<script type="math/tex; mode=display">
+\delta_k = G(\mathbf x_{k})\mathbf y_k+\alpha( r\delta_k^T\mathbf y_k) r\delta_k + \beta (\theta \mathbf y_k^TG(\mathbf x_k)\mathbf y_k)\theta G(\mathbf x_k)\mathbf y_k\</script><p>整理得：</p>
+<script type="math/tex; mode=display">
+(\alpha r^2(\delta_k^T\mathbf y_k)-1)\delta_k+(\beta\theta^2(\mathbf y_k^TG(\mathbf x_k)\mathbf y_k)+1) G(\mathbf x_k)\mathbf y_k=0</script><p>令</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+\alpha r^2(\delta_k^T\mathbf y_k) = 1\\
+\beta\theta^2(\mathbf y_k^TG(\mathbf x_k)\mathbf y_k)=-1
+\end{cases}</script><p>最终代入可得</p>
+<script type="math/tex; mode=display">
+G(\mathbf x_{k+1}) = G(\mathbf x_k) + \frac{\delta_k\delta_k^T}{\delta_k^T\mathbf y_k} - \frac{G(\mathbf x_k)\mathbf y_k\mathbf y_k^TG(\mathbf x_k)}{\mathbf y_k^TG(\mathbf x_k)\mathbf y_k}</script><h2 id="BFGS-方法"><a href="#BFGS-方法" class="headerlink" title="BFGS 方法"></a>BFGS 方法</h2><p>BFGS 算法采用矩阵 $B(\mathbf x_k)$ 来对 $H(\mathbf x_k)$ 进行近似，采取上节 DFP 方法的推导方法，可得</p>
+<script type="math/tex; mode=display">
+B(\mathbf x_{k+1}) = B(\mathbf x_k) + \frac{\mathbf y_k\mathbf y_k^T}{\mathbf y_k^T\delta_k} - \frac{B(\mathbf x_k)\delta_k \delta_k^TB(\mathbf x_k)}{\delta_k^TB(\mathbf x_k)\delta_k}</script><p>可记 $G(\mathbf x<em>{k})=B(\mathbf x</em>{k})^{-1}$，那么有</p>
+<script type="math/tex; mode=display">
+G(\mathbf x_{k+1})=\left(B(\mathbf x_k) + \frac{\mathbf y_k\mathbf y_k^T}{\mathbf y_k^T\delta_k} - \frac{B(\mathbf x_k)\delta_k \delta_k^TB(\mathbf x_k)}{\delta_k^TB(\mathbf x_k)\delta_k}\right)^{-1}</script><p>本式可以运用 <strong>Sherman-Morrison-Woodbury 公式</strong>求解</p>
+<blockquote>
+<p>Sherman-Morrison-Woodbury 公式是一种矩阵求逆的方法，公式如下：</p>
+<script type="math/tex; mode=display">
+(A+UCV)^{-1} = A^{-1}-\frac{A^{-1}UVA^{-1}}{C^{-1}+VA^{-1}U}</script><p>还有一个向量版的，叫 Sherman-Morrison 公式：</p>
+<script type="math/tex; mode=display">
+(A+uv^{T})^{-1} = A^{-1}-\frac{A^{-1}uv^{T}A^{-1}}{1+v^{T}A^{-1}u}</script></blockquote>
+<p>经过上面两个计算的不停的折腾（完整推倒过程可以 <a href="https://blog.csdn.net/zhirom/article/details/38332111" target="_blank" rel="noopener">点这里</a> ），求解得：</p>
+<script type="math/tex; mode=display">
+G(\mathbf x_{k+1}) = (I-\frac{\delta_k\mathbf y_k^T}{\mathbf y^T_k\delta_k}) G(\mathbf x_{k}) (I-\frac{\mathbf y_k\delta_k^T}{\mathbf y^T_k\delta_k})+\frac{\delta_k\delta_k^T}{\mathbf y^T_k\delta_k}</script><p>令 $\rho = \frac 1 {\mathbf y^T_k\delta_k}$，可以得出最终的 BFGS 方法的迭代方程：</p>
+<script type="math/tex; mode=display">
+G(\mathbf x_{k+1}) = (I-\rho{\delta_k\mathbf y_k^T}) G(\mathbf x_{k}) (I-\rho{\mathbf y_k\delta_k^T})+\rho{\delta_k\delta_k^T}</script><h2 id="L-BFGS-算法"><a href="#L-BFGS-算法" class="headerlink" title="L-BFGS 算法"></a>L-BFGS 算法</h2><p>这个算法的英文全称为Limited-memory BFGS（或 Limited-storage BFGS），意思就是上面的 BFGS 方法同样需要消耗计算机的很多计算能力，于是需要一个简洁版的算法。这个 L-BFGS 算法就是这个意思。</p>
+<p>但是我现在还不想写，想看的看下面这个博客</p>
+<p><a href="https://liuxiaofei.com.cn/blog/lbfgs方法推导/" target="_blank" rel="noopener">https://liuxiaofei.com.cn/blog/lbfgs%e6%96%b9%e6%b3%95%e6%8e%a8%e5%af%bc/</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"><i class="fa fa-tag"></i> 机器学习</a>
+          
+            <a href="/tags/最优化算法/" rel="tag"><i class="fa fa-tag"></i> 最优化算法</a>
+          
+            <a href="/tags/回归/" rel="tag"><i class="fa fa-tag"></i> 回归</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/20/大文件/" rel="next" title="愚蠢至极！处理Hexo错误上传大文件！">
+                <i class="fa fa-chevron-left"></i> 愚蠢至极！处理Hexo错误上传大文件！
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/18/随机森林/" rel="prev" title="随机森林">
+                随机森林 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar1.jpg" alt="Fangchen Wu">
+            
+              <p class="site-author-name" itemprop="name">Fangchen Wu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/FrozenWu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:lalalafrozen@live.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/2881393720" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/wufangchen95" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#牛顿法-Newton-Method"><span class="nav-number">1.</span> <span class="nav-text">牛顿法(Newton Method)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用牛顿法求解最优化问题"><span class="nav-number">2.</span> <span class="nav-text">利用牛顿法求解最优化问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#海塞矩阵-Hessian-Matrix"><span class="nav-number">2.1.</span> <span class="nav-text">海塞矩阵(Hessian Matrix)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LM-修正牛顿法"><span class="nav-number">3.</span> <span class="nav-text">LM 修正牛顿法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#高斯-牛顿法-Gauss-Newton-Method"><span class="nav-number">4.</span> <span class="nav-text">高斯-牛顿法(Gauss-Newton Method)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#拟牛顿法-Quasi-Newton-Methods"><span class="nav-number">5.</span> <span class="nav-text">拟牛顿法(Quasi-Newton Methods)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DFP-变尺度法"><span class="nav-number">5.1.</span> <span class="nav-text">DFP 变尺度法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BFGS-方法"><span class="nav-number">5.2.</span> <span class="nav-text">BFGS 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#L-BFGS-算法"><span class="nav-number">5.3.</span> <span class="nav-text">L-BFGS 算法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fangchen Wu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">全站字数统计&#58;</span>
+    
+    <span title="全站字数统计">57.2k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

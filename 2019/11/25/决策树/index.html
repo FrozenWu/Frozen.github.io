@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+<link href="https://fonts.loli.net/css?family=Noto+Serif+SC:400,500,700&display=swap&subset=cyrillic,vietnamese" rel="stylesheet">
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,分类,监督学习,">
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="机器学习,分类,监督学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="决策树">
+<meta property="og:url" content="http://frozenwu.github.io/2019/11/25/决策树/index.html">
+<meta property="og:site_name" content="Frozen&#39;s">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://frozenwu.github.io/2019/11/25/决策树/title.svg">
+<meta property="og:image" content="http://frozenwu.github.io/2019/11/25/决策树/图片1.svg">
+<meta property="og:image" content="http://frozenwu.github.io/2019/11/25/决策树/图片2.svg">
+<meta property="og:updated_time" content="2020-03-19T05:40:19.831Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="决策树">
+<meta name="twitter:image" content="http://frozenwu.github.io/2019/11/25/决策树/title.svg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://frozenwu.github.io/2019/11/25/决策树/">
+
+
+
+
+
+  <title>决策树 | Frozen's</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+  <a href="https://github.com/FrozenWu" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Frozen's</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://frozenwu.github.io/2019/11/25/决策树/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fangchen Wu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Frozen's">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">决策树</h1>
+        
+
+        <div class="post-meta">
+
+            
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-25T14:37:52+08:00">
+                2019-11-25
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-03-19T13:40:19+08:00">
+                2020-03-19
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="//frozenwu.github.io/2019/11/25/决策树/title.svg" alt></p>
+<a id="more"></a>
+<h1 id="熵-Entropy"><a href="#熵-Entropy" class="headerlink" title="熵(Entropy)"></a>熵(Entropy)</h1><p>信息熵是信息的量化度量，举一个例子：我任意从 1~8 中任选一个数，让你来猜。你可能会提问“你猜的数字在 1~4 中吗？”通过得到的答案是或否，就可以缩小你的选择范围。只需这样回答三次 $(\log_28=3)$，他便可以知道你所选择的数字具体是哪个。那么 $3$ 就是刚才举的例子中“我刚选了一个数，你来猜呀！”这个信息的量化度量，用比特(bit)来表示。</p>
+<p>信息论的创始人香农老爷子给出了一个公式，可以更准确的描述信息的量化度量，被称作<strong>信息熵</strong>，公式如下：</p>
+<script type="math/tex; mode=display">
+H(X) = -\sum_{x\in X}P(x)\log P(x)</script><p>其中 $X$ 为随机变量，$\log$ 以 $2$ 为底。</p>
+<h1 id="决策树-Decision-Tree"><a href="#决策树-Decision-Tree" class="headerlink" title="决策树(Decision Tree)"></a>决策树(Decision Tree)</h1><p>我第一次听见决策树这个名词时在管理学的课上讲的，但是我没有听，没想到在机器学习里面还有这个东西。</p>
+<p>决策树在机器学习中比较常见，可以解决分类与回归问题。先看下面就“在实验室干点什么”为主题而生成的决策树：</p>
+<p><img src="//frozenwu.github.io/2019/11/25/决策树/图片1.svg" style="zoom:67%;"></p>
+<p>决策树分为根节点，中间节点，叶节点。根节点是决策树的起源，也是第一个对特征的决策；每个叶节点都是分类问题对应的标签，也对应每个样本的分类结果。</p>
+<p>假设现在有一个二分类问题，根据已有标签的样本的周老师的西瓜是不是好瓜进行决策树分类。现有西瓜数据集如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">编号</th>
+<th>色泽</th>
+<th>根蒂</th>
+<th>敲声</th>
+<th>纹理</th>
+<th>脐部</th>
+<th>触感</th>
+<th>好瓜</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1</td>
+<td>青绿</td>
+<td>蜷缩</td>
+<td>浊响</td>
+<td>清晰</td>
+<td>凹陷</td>
+<td>硬滑</td>
+<td>是</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td>乌黑</td>
+<td>蜷缩</td>
+<td>沉闷</td>
+<td>清晰</td>
+<td>凹陷</td>
+<td>硬滑</td>
+<td>是</td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td>乌黑</td>
+<td>蜷缩</td>
+<td>浊响</td>
+<td>清晰</td>
+<td>凹陷</td>
+<td>硬滑</td>
+<td>是</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>4</strong></td>
+<td>青绿</td>
+<td>蜷缩</td>
+<td>沉闷</td>
+<td>清晰</td>
+<td>凹陷</td>
+<td>硬滑</td>
+<td>是</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>5</strong></td>
+<td>浅白</td>
+<td>蜷缩</td>
+<td>浊响</td>
+<td>清晰</td>
+<td>凹陷</td>
+<td>硬滑</td>
+<td>是</td>
+</tr>
+<tr>
+<td style="text-align:left">6</td>
+<td>青绿</td>
+<td>稍蜷</td>
+<td>浊响</td>
+<td>清晰</td>
+<td>稍凹</td>
+<td>软粘</td>
+<td>是</td>
+</tr>
+<tr>
+<td style="text-align:left">7</td>
+<td>乌黑</td>
+<td>稍蜷</td>
+<td>浊响</td>
+<td>清晰</td>
+<td>稍凹</td>
+<td>软粘</td>
+<td>是</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>8</strong></td>
+<td>乌黑</td>
+<td>稍蜷</td>
+<td>浊响</td>
+<td>清晰</td>
+<td>稍凹</td>
+<td>硬滑</td>
+<td>是</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>9</strong></td>
+<td>乌黑</td>
+<td>稍蜷</td>
+<td>沉闷</td>
+<td>稍糊</td>
+<td>稍凹</td>
+<td>硬滑</td>
+<td>否</td>
+</tr>
+<tr>
+<td style="text-align:left">10</td>
+<td>青绿</td>
+<td>硬挺</td>
+<td>沉闷</td>
+<td>清晰</td>
+<td>平坦</td>
+<td>软粘</td>
+<td>否</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>11</strong></td>
+<td>浅白</td>
+<td>硬挺</td>
+<td>沉闷</td>
+<td>模糊</td>
+<td>平坦</td>
+<td>硬滑</td>
+<td>否</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>12</strong></td>
+<td>浅白</td>
+<td>蜷缩</td>
+<td>浊响</td>
+<td>模糊</td>
+<td>平坦</td>
+<td>软粘</td>
+<td>否</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>13</strong></td>
+<td>青绿</td>
+<td>稍蜷</td>
+<td>浊响</td>
+<td>稍糊</td>
+<td>凹陷</td>
+<td>硬滑</td>
+<td>否</td>
+</tr>
+<tr>
+<td style="text-align:left">14</td>
+<td>浅白</td>
+<td>稍蜷</td>
+<td>沉闷</td>
+<td>稍糊</td>
+<td>凹陷</td>
+<td>硬滑</td>
+<td>否</td>
+</tr>
+<tr>
+<td style="text-align:left">15</td>
+<td>乌黑</td>
+<td>稍蜷</td>
+<td>浊响</td>
+<td>清晰</td>
+<td>稍凹</td>
+<td>软粘</td>
+<td>否</td>
+</tr>
+<tr>
+<td style="text-align:left">16</td>
+<td>浅白</td>
+<td>蜷缩</td>
+<td>浊响</td>
+<td>模糊</td>
+<td>平坦</td>
+<td>硬滑</td>
+<td>否</td>
+</tr>
+<tr>
+<td style="text-align:left">17</td>
+<td>青绿</td>
+<td>蜷缩</td>
+<td>沉闷</td>
+<td>稍糊</td>
+<td>稍凹</td>
+<td>硬滑</td>
+<td>否</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>现在想构建一个判断次数尽可能小、可以对瓜进行分类的决策树，先从哪里开始呢？开始。之前提到的熵是用来描述信息确定性的度量，在决策树中可以表示样本的纯度，纯度越高，信息的熵就越小；相反，熵就越大。那么分类结果的好换就可以用熵的大小来表示。熵的公式为：</p>
+<script type="math/tex; mode=display">
+\text{Ent}(X) = -\sum_{k=1}^{|\mathcal Y|}p_k\log p_k</script><p>其中$X$表示西瓜样本全体，$|\mathcal Y|$表示样本空间中所有样本的类别个数，当然在二分类问题中$|\mathcal Y| = 2$。</p>
+<h2 id="信息增益-Information-Gain"><a href="#信息增益-Information-Gain" class="headerlink" title="信息增益(Information Gain)"></a>信息增益(Information Gain)</h2><p><strong>信息增益</strong>是指在某一节点对属性$a$进行判定前后熵的变化，公式为：</p>
+<script type="math/tex; mode=display">
+\text{Gain}(X,a_j) = \text{Ent}(X) - \sum_{v=1}^V\frac{m^v}{m}\text{Ent}(X^v)</script><p>其中样本的第$j$个属性$a_j$有$V$个可能的取值${a^1_j,a^2_j,\cdots,a^V_j}$，$m$为总体样本数，$X^v$为属性$a=v$的样本，$m^v$为总样本中属性$a=v$的样本个数。比如对于属性“色泽”来说，分为青绿、乌黑、浅白三种可能取值，那么$V=3$，样本中有6个青绿色的瓜，则$m^1=6$。信息增益就是我们我握在手中判断先对那个样本属性开始的重要依据。</p>
+<p>就以上面的例子来说，当决策开始，样本整体$X$未进行判断时，17个瓜里面有8个好瓜，9个坏瓜，则根节点的信息熵为：</p>
+<script type="math/tex; mode=display">
+\text{End}(X)=-\sum_{i=1}^{2}p_k\log p_k=-(\frac{8}{17}\log_2\frac{8}{17}+\frac{9}{17}\log_2\frac{9}{17})=0.998</script><p>之后就是计算决策树的根节点以属性$a_j$进行决策得到的信息增益。以属性“色泽”为例，先求样本经过划分后每个子集的信息熵：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\text{Ent}(X^1) &= -\left(\frac3 6\log_2 \frac3 6 + \frac3 6\log_2 \frac3 6\right) = 1.000\\
+\text{Ent}(X^2) &= -\left(\frac4 6\log_2 \frac4 6 + \frac2 6\log_2 \frac2 6\right) = 0.918\\
+\text{Ent}(X^3) &= -\left(\frac1 5\log_2 \frac1 5 + \frac4 5\log_2 \frac4 5\right) = 0.722
+\end{align}</script><p>之后就可以求得属性“色泽”的信息增益：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\text{Gain}(X,a_j=色泽) &= \text{Ent}(X) - \sum_{v=1}^3\frac{m^v}{m}\text{Ent}(X^v)\\
+&=0.998-\left(\frac{6}{17}\times1.000+\frac{6}{17}\times0.918+\frac{5}{17}\times0.722\right)\\
+&=0.109
+\end{align}</script><p>同样的，还可以求出其他属性的信息增益。信息增益越大，则经过属性判断后的信息熵就越小，每个叶节点的数据就越“纯净”，那么决策树效率就越高。所以我们需要找到最大的信息增益对应的属性$\hat a_j=\arg\max_j\text{Gain}(X,a_j)$来进行划分判断。依据信息增益进行属性选择的决策树也被称为<strong>ID3决策树算法</strong>。</p>
+<h2 id="增益率-Gain-Ratio"><a href="#增益率-Gain-Ratio" class="headerlink" title="增益率(Gain Ratio)"></a>增益率(Gain Ratio)</h2><p>ID3决策树看似很优秀，但实际上也有着不小的瑕疵：如果我把编号也当作像本的属性来进行判断，那么就会得到$\text{Gain}(X,编号)=\text{Ent}(X)-0$。那么编号属性就会被首先选中。很显然这不是我们想要的结果。</p>
+<p>我们运用可以运用<strong>信息增益率</strong>来选择最优划分属性，定义为：</p>
+<script type="math/tex; mode=display">
+\text{Gain ratio}(X,a_j) = \frac{\text{Gain}(X,a_j)}{\text{IV}(a_j)}</script><p>其中$\text{IV}(a_j)$为属性$a_j$的固有值(intrinsic value)</p>
+<script type="math/tex; mode=display">
+\text{IV}(a_j) = - \sum_{v=1}^V\frac{m^v}{m}\log\frac{m^v}{m}</script><p>当属性$a_j$可能取值越多，则$\text{IV}(a_j)$就会越大，导致$\text{Gain ratio}(X,a_j)$越小，可以修正ID3决策树的缺陷，这种据增益率进行属性选择的决策树也被称为<strong>C4.5决策树算法</strong>。当然增益率会对有取值少的属性有所偏好，我们可以先找到信息增益率高于平均水平的属性，再比较信息增益得到最优划分属性。</p>
+<h2 id="基尼系数-Gini-Index"><a href="#基尼系数-Gini-Index" class="headerlink" title="基尼系数(Gini Index)"></a>基尼系数(Gini Index)</h2><p>基尼系数是另一种判断信息是否“纯净”的指标，用$\text{Gini}(X)$从样本$X$中随机抽取两个样本标的签不一样的概率：</p>
+<script type="math/tex; mode=display">
+\text{Gini}(X)=\sum_{k=1}^{|\mathcal Y|} \sum_{k'\neq k}p_kp_{k'}=1-\sum_{k=1}^{|\mathcal Y|}p_k^2</script><p>属性$a_j$的基尼系数$\text{Gini index}(X,a_j)$定义为：</p>
+<script type="math/tex; mode=display">
+\text{Gini index}(X,a_j) = \sum_{v=1}^V \frac {m^v} {m}\text{Gini}(X^v)</script><p>与信息增益相似，可以求出其他属性的基尼系数进行比较。基尼系数越小，每个叶节点的数据就越“纯净”。所以我们需要找到最小的基尼系数对应的属性$\hat a_j=\arg\min_j\text{Gini index}(X,a_j)$来进行划分判断。依据信息增益进行属性选择的决策树也被称为<strong>CART决策树算法</strong>。</p>
+<h2 id="剪枝-Pruning"><a href="#剪枝-Pruning" class="headerlink" title="剪枝(Pruning)"></a>剪枝(Pruning)</h2><p>在运筹学整数规划的部分接触过分支定界法，在进行分支选择时，会找尽可能最优的目标值进行分支，这是因为这样可以最快找到最优解，减少计算时间。为了防止决策树深度过深而过拟合，需要对决策树进行剪枝操作。剪枝分为<strong>预剪枝</strong>与<strong>后剪枝</strong>两种策略。</p>
+<h3 id="预剪枝"><a href="#预剪枝" class="headerlink" title="预剪枝"></a>预剪枝</h3><p>预剪枝是指决策树在对某个节点进行划分之前，首先对每个节点进行估计，若当前节点划分后不能到来更高的准确率，那么就停止划分该节点。</p>
+<p>将西瓜数据集划分为训练集（标号没加粗）与测试集（标号加粗），以属性“色泽”为例，对数据集进行划分：</p>
+<p><img src="//frozenwu.github.io/2019/11/25/决策树/图片2.svg" alt></p>
+<p>在根据属性“色泽”划分后，测试集的精度提升，说明该决策树的泛化度提高。接下来对最右侧节点根据“敲声”进行划分，测试集的精度降低了，那么就不能用“敲声”进行划分。同样的，对其它节点也进行类似的判断。预剪枝是基于“贪心”的本质，禁止比已有树精度低的属性进行判断，这也给决策树带来欠拟合的风险。</p>
+<h3 id="后剪枝"><a href="#后剪枝" class="headerlink" title="后剪枝"></a>后剪枝</h3><p>后剪枝是指一棵决策树在训练完成后，从下至上对每个中间节点的测试集精度进行比较，如果剪枝之后有所提高或者不变，那么则进行剪枝处理。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"><i class="fa fa-tag"></i> 机器学习</a>
+          
+            <a href="/tags/分类/" rel="tag"><i class="fa fa-tag"></i> 分类</a>
+          
+            <a href="/tags/监督学习/" rel="tag"><i class="fa fa-tag"></i> 监督学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/22/KNN/" rel="next" title="K-近邻">
+                <i class="fa fa-chevron-left"></i> K-近邻
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/01/朴素贝叶斯/" rel="prev" title="朴素贝叶斯">
+                朴素贝叶斯 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar1.jpg" alt="Fangchen Wu">
+            
+              <p class="site-author-name" itemprop="name">Fangchen Wu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/FrozenWu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:lalalafrozen@live.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/2881393720" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/wufangchen95" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#熵-Entropy"><span class="nav-number">1.</span> <span class="nav-text">熵(Entropy)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#决策树-Decision-Tree"><span class="nav-number">2.</span> <span class="nav-text">决策树(Decision Tree)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#信息增益-Information-Gain"><span class="nav-number">2.1.</span> <span class="nav-text">信息增益(Information Gain)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增益率-Gain-Ratio"><span class="nav-number">2.2.</span> <span class="nav-text">增益率(Gain Ratio)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基尼系数-Gini-Index"><span class="nav-number">2.3.</span> <span class="nav-text">基尼系数(Gini Index)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#剪枝-Pruning"><span class="nav-number">2.4.</span> <span class="nav-text">剪枝(Pruning)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#预剪枝"><span class="nav-number">2.4.1.</span> <span class="nav-text">预剪枝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后剪枝"><span class="nav-number">2.4.2.</span> <span class="nav-text">后剪枝</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fangchen Wu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">全站字数统计&#58;</span>
+    
+    <span title="全站字数统计">57.2k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

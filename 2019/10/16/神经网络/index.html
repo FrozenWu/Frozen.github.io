@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+<link href="https://fonts.loli.net/css?family=Noto+Serif+SC:400,500,700&display=swap&subset=cyrillic,vietnamese" rel="stylesheet">
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,分类,监督学习,">
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="机器学习,分类,监督学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前馈神经网络">
+<meta property="og:url" content="http://frozenwu.github.io/2019/10/16/神经网络/index.html">
+<meta property="og:site_name" content="Frozen&#39;s">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://frozenwu.github.io/2019/10/16/神经网络/nt.svg">
+<meta property="og:image" content="http://frozenwu.github.io/2019/10/16/神经网络/md.svg">
+<meta property="og:image" content="http://frozenwu.github.io/2019/10/16/神经网络/md2.svg">
+<meta property="og:image" content="http://frozenwu.github.io/2019/10/16/神经网络/md3.svg">
+<meta property="og:image" content="http://frozenwu.github.io/2019/10/16/神经网络/md4.svg">
+<meta property="og:updated_time" content="2020-05-07T02:56:51.081Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前馈神经网络">
+<meta name="twitter:image" content="http://frozenwu.github.io/2019/10/16/神经网络/nt.svg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://frozenwu.github.io/2019/10/16/神经网络/">
+
+
+
+
+
+  <title>前馈神经网络 | Frozen's</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+  <a href="https://github.com/FrozenWu" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Frozen's</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://frozenwu.github.io/2019/10/16/神经网络/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fangchen Wu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Frozen's">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">前馈神经网络</h1>
+        
+
+        <div class="post-meta">
+
+            
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-16T11:20:24+08:00">
+                2019-10-16
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-07T10:56:51+08:00">
+                2020-05-07
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="//frozenwu.github.io/2019/10/16/神经网络/nt.svg" alt></p>
+<a id="more"></a>
+<h1 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h1><p>根据之前的学习，可以了解到使用非线性的多项式项，能够帮助我们建立更好的分类模型。假设我们有非常多的特征，例如100个变量，我们希望用这100个特征来构建一个非线性的多项式模型，结果将是数量非常庞大的特征组合，这对于一般的逻辑回归来说需要计算的特征太多了。普通的逻辑回归模型不能有效地处理这么多的特征，这时候我们需要神经网络。</p>
+<p>神经网络是一种很古老的算法，它最初产生的目的是制造能模拟大脑的机器。而现在我们在机器学习领域谈论神经网络指的是“神经网络学习”。  </p>
+<h2 id="神经网络模型"><a href="#神经网络模型" class="headerlink" title="神经网络模型"></a>神经网络模型</h2><p>神经网络的的基本单元是神经元，神经网络模型建立在很多神经元之上，每一个神经元又是一个个学习模型。这些神经元(也叫激活单元，activation unit)采纳一些特征作为输出，并且根据本身的模型提供一个输出。</p>
+<p><img src="//frozenwu.github.io/2019/10/16/神经网络/md.svg" style="zoom:67%;"></p>
+<p>上图是一个以逻辑回归模型作为自身学习模型的神经元示例 ，$x<em>0,x_1,x_2$ 是神经元的<strong>输入</strong>。$g(z)$ 作为预测结果$h</em>\theta(x)$，称为神经元的<strong>输出</strong>。$g(z)$ 被称作激活函数( activation function)， 可以控制这个神经元是否被激活（比如逻辑回归中的 sigmoid 函数 $\sigma(z)$）其中 $x_0$ 称为<strong>偏执单元</strong>(bias unit)，$-\theta_0$ 为偏执（或者称为<strong>阈值</strong>，threshold）。阈值控制着神经元何时被激活。参数$\theta_i$又可被称为<strong>权重</strong>$w_i$（weight）</p>
+<p><img src="//frozenwu.github.io/2019/10/16/神经网络/md2.svg" alt="md2" style="zoom:67%;"></p>
+<p>上图是一个简单的神经网络，分为输入层，隐藏层，输出层。其中 $x<em>1,x_2,x_3$ 是输入单元，我们将原始数据输入给它们；$a^{(2)}_1,a^{(2)}_2,a^{(2)}_3$ 是中间单元，它们负责将数据进行处理，然后呈递到下一层； 最后是输出单元，它负责计算假设 $h</em>\Theta(x)$。</p>
+<blockquote>
+<p>$a^{(l)}_i$代表第$l$层的第$i$个激活单元；</p>
+<p>$s_l$代表着第$l$层的神经元个数；</p>
+<p>$\theta^{(j)}$代表从第$j$层映射到第$j+1$层时的权重的矩阵，大小为$s_{j+1}\times s_j$</p>
+</blockquote>
+<p>对于上图所示的模型，激活单元和输出分别表达为：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+a_1^{(2)}=& g(\Theta^{(1)}_{10}x_0 + \Theta^{(1)}_{11}x_1 + \Theta^{(1)}_{12}x_2 + \Theta^{(1)}_{13}x_3 )\\
+a_2^{(2)}=& g(\Theta^{(1)}_{20}x_0 + \Theta^{(1)}_{21}x_1 + \Theta^{(1)}_{22}x_2 + \Theta^{(1)}_{23}x_3 )\\
+a_3^{(2)}=& g(\Theta^{(1)}_{30}x_0 + \Theta^{(1)}_{31}x_1 + \Theta^{(1)}_{32}x_2 + \Theta^{(1)}_{33}x_3 )\\
+h_\Theta(x)=& g(\Theta^{(2)}_{10}a^{(2)}_0 + \Theta^{(2)}_{11}a^{(2)}_1 + \Theta^{(2)}_{12}a^{(2)}_2 + \Theta^{(2)}_{13}a^{(2)}_3)
+\end{align}</script><p>每一个$a$都是由上一层所有的$x$和每一个 $\Theta$ 所对应的决定的，我们把这样从左到右来计算出每个激活单元$a^{(l)}_i$的算法称为<strong>前向传播算法</strong>(forward propagation) 。</p>
+<h2 id="反向传播算法-Back-Propagation-Alogorithm"><a href="#反向传播算法-Back-Propagation-Alogorithm" class="headerlink" title="反向传播算法(Back Propagation Alogorithm)"></a>反向传播算法(Back Propagation Alogorithm)</h2><p>我们通过神经网络模型得出了一个预测结果 $h<em>\Theta(x)$，可是这个结果可能与真实的结果 $y$ 相差得很远，然而这个愚蠢结果是通过输入层 $x_i$ 与很多的参数 $\Theta^{(l)}</em>{jk}$ 共同计算得出的，所以我们若是想优化神经网络的预测结果，就得不断调整参数，使输出结果得到最优。这是我们就需要通过<strong>反向传播算法</strong>不断通过训练来获得更优的参数。</p>
+<p>我们先看一个简单的神经网络：</p>
+<p><img src="//frozenwu.github.io/2019/10/16/神经网络/md3.svg" alt></p>
+<p>其中：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+a^{(4)} =& \sigma(z^{(3)});~~~z^{(3)}=\Theta^{(3)}_0+\Theta^{(3)}_1a_1^{(3)}\\
+a^{(3)}_1 =& 
+\sigma(z^{(2)});~~~z^{(2)}=\Theta^{(2)}_0+\Theta^{(2)}_1a_1^{(2)}\\
+a^{(2)}_1 =& 
+\sigma(z^{(1)});~~~z^{(1)}=\Theta^{(1)}_0+\Theta^{(1)}_1a_1^{(1)}\\
+\end{align}</script><p>假设现在有一组样本 ${(x,y)}$，显然需要不断调整这六个参数，运用梯度下降的方法来让这个网络模型得到最优：</p>
+<script type="math/tex; mode=display">
+\Theta^{(l)}_i:=\Theta^{(l)}_i-\alpha\frac{\partial J(\Theta)}{\partial\Theta^{(l)}_i}</script><p>其中的代价函数 $J(\Theta)$ 为：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+J(\Theta) =& \frac{1}{2}(h_\Theta(x)-y)^2\\
+=&\frac{1}{2}(a^{(4)}-y)^2
+\end{align}</script><p>先调整第三层的 $\Theta^{(3)}_1$：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\frac{\partial J(\Theta)}{\partial \Theta^{(3)}_1} =& \frac{\partial J(\Theta)}{\partial a^{(4)}}\frac{\partial a^{(4)}}{\partial z^{(3)}} \frac{\partial z^{(3)}}{\partial \Theta^{(3)}_1}\\
+=&(a^{(4)}-y)\sigma'(z^{(3)})a_1^{(3)}
+\end{align}</script><p>再计算 $a^{(4)}$ 偏置项 $\Theta^{(3)}_0$：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\frac{\partial J(\Theta)}{\partial \Theta^{(3)}_0} =& \frac{\partial J(\Theta)}{\partial a^{(4)}}\frac{\partial a^{(4)}}{\partial z^{(3)}} \frac{\partial z^{(3)}}{\partial \Theta^{(3)}_0}\\
+=&(a^{(4)}-y)\sigma'(z^{(3)})
+\end{align}</script><p>好了，现在已经求出第3层参数的偏导，下面继续往前求第2层参数的偏导 $\Theta^{(2)}_1$：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+ =& \biggr(\frac{\partial J(\Theta)}{\partial a^{(4)}}\frac{\partial a^{(4)}}{\partial z^{(3)}} \biggr)\biggr(\frac{\partial z^{(3)}}{\partial a^{(3)}_1} \frac{\partial a^{(3)}_1}{\partial z^{(2)}}\biggr) \frac{\partial z^{(2)}}{\partial \Theta^{(2)}_1}\\
+=&(a^{(4)}-y)\sigma'(z^{(3)})\cdot\Theta^{(3)}_1  \sigma'(z^{(2)})\cdot a_1^{(2)}
+\end{align}</script><p>计算 $a^{(3)}_1$ 偏置项 $\Theta^{(2)}_0$：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\frac{\partial J(\Theta)}{\partial \Theta^{(2)}_0} =& \biggr(\frac{\partial J(\Theta)}{\partial a^{(4)}}\frac{\partial a^{(4)}}{\partial z^{(3)}}\biggr)\biggr( \frac{\partial z^{(3)}}{\partial a^{(3)}_1} \frac{\partial a^{(3)}_1}{\partial z^{(2)}_1}\biggr) \frac{\partial z^{(2)}_1}{\partial \Theta^{(2)}_0}\\
+=&(a^{(4)}-y)\sigma'(z^{(3)})\cdot\Theta^{(3)}_1  \sigma'(z^{(2)})
+\end{align}</script><p>继续往前求第1层参数的偏导 $\Theta^{(1)}_1$：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\frac{\partial J(\Theta)}{\partial \Theta^{(1)}_1} 
+=&\biggr(\frac{\partial J(\Theta)}{\partial a^{(4)}}\frac{\partial a^{(4)}}{\partial z^{(3)}}\biggr)\biggr( \frac{\partial z^{(3)}}{\partial a^{(3)}_1} \frac{\partial a^{(3)}_1}{\partial z^{(2)}}\biggr)\biggr(\frac{\partial z^{(2)}}{\partial a^{(2)}_1} \frac{\partial a^{(2)}_1}{\partial z^{(1)}} \biggr)\frac{\partial z^{(1)}}{\partial \Theta^{(1)}_1} \\
+=&(a^{(4)}-y)\sigma'(z^{(3)})\cdot\Theta^{(3)}_1 \sigma'(z^{(2)}) \cdot \Theta^{(2)}_1  \sigma'(z^{(1)})\cdot a^{(1)}_1
+\end{align}</script><p>计算$a^{(2)}_1$偏置项 $\Theta^{(1)}_0$：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\frac{\partial J(\Theta)}{\partial \Theta^{(1)}_0} 
+=&\biggr(\frac{\partial J(\Theta)}{\partial a^{(4)}}\frac{\partial a^{(4)}}{\partial z^{(3)}}\biggr)\biggr( \frac{\partial z^{(3)}}{\partial a^{(3)}_1} \frac{\partial a^{(3)}_1}{\partial z^{(2)}} \biggr)\biggr( \frac{\partial z^{(2)}}{\partial a^{(2)}_1}\frac{\partial a^{(2)}_1}{\partial z^{(1)}} \biggr)\frac{\partial z^{(1)}}{\partial \Theta^{(1)}_0} \\
+=&(a^{(4)}-y)\sigma'(z^{(3)})\cdot\Theta^{(3)}_1  \sigma'(z^{(2)}) \cdot\Theta^{(2)}_1  \sigma'(z^{(1)})
+\end{align}</script><p>好了，现在计算出了这个神经网络模型的所有参数的偏导，就可以代入梯度下降的迭代公式就能达到最优。但是参数越靠前，式子就越长，我们可以简化一下这个式子：</p>
+<p>令：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\delta^{(4)}=&(a^{(4)}-y)\sigma'(z^{(3)})\\
+\delta^{(3)}=&\Theta^{(3)}_1\delta^{(4)}\sigma'(z^{(2)})\\
+\delta^{(2)}=&\Theta^{(2)}_1\delta^{(3)}\sigma'(z^{(1)})
+\end{align}</script><p>则：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\frac{\partial J(\Theta)}{\partial \Theta^{(3)}_1} =& \delta^{(4)}a_1^{(3)}  
+&\frac{\partial J(\Theta)}{\partial \Theta^{(3)}_0} =& \delta^{(4)}\\
+\frac{\partial J(\Theta)}{\partial \Theta^{(2)}_1} =& \delta^{(3)}a_1^{(2)}  
+&\frac{\partial J(\Theta)}{\partial \Theta^{(2)}_0} =& \delta^{(3)}\\
+\frac{\partial J(\Theta)}{\partial \Theta^{(1)}_1} =& \delta^{(2)}a_1^{(1)}  
+&\frac{\partial J(\Theta)}{\partial \Theta^{(1)}_0} =& \delta^{(2)}\\
+\end{align}</script><p>下面有一个复杂的4层神经网络：</p>
+<p><img src="//frozenwu.github.io/2019/10/16/神经网络/md4.svg" style="zoom:80%;"></p>
+<p>其中：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\hat{y_j} =& \sigma(z^{(3)}_j);~~~z^{(3)}_j=\Theta^{(3)}_{j0}+\sum_{k=1}^{S_3}\Theta^{(3)}_{jk}a_k^{(3)}  &(j=1,2,3)&\\
+a^{(3)}_j =& \sigma(z^{(2)}_j);~~~z^{(2)}_j=\Theta^{(2)}_{j0}+\sum_{k=1}^{S_2}\Theta^{(2)}_{jk}a_k^{(2)}  &(j=1,2,3,4,5)&\\
+a^{(2)}_j =& 
+\sigma(z^{(1)}_j);~~~z^{(1)}_j=\Theta^{(1)}_{j0}+\sum_{k=1}^{S_1}\Theta^{(1)}_{jk}a_k^{(1)}  &(j=1,2,3,4,5)&\\
+\end{align}</script><p>假设现在有$m$组样本 ${(x^{(1)},y^{(1)})，(x^{(2)},y^{(2)})\cdots(x^{(i)},y^{(i)})\cdots}$，代价函数 $J(\Theta)$ 为：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+J(\Theta) =& \frac{1}{2m}\sum_{i=1}^m(h_\Theta(x^{(i)})-y^{(i)})^2\\
+=&\frac{1}{2m}\sum_{i=1}^m\sum_{k=1}^{S_4}(\hat{y}^{(i)}_k-y^{(i)}_k)^2
+\end{align}</script><p>先找出一组样本 $(x,y)$，$y\in \Bbb R^3$，先调整第三层的 $\Theta^{(3)}_{jk}$：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\frac{\partial J(\Theta)}{\partial \Theta^{(3)}_{jk}} =& 
+\frac{\partial J(\Theta)}{\partial a^{(4)}_j}\frac{\partial a^{(4)}_j}{\partial z^{(3)}_j} \frac{\partial z^{(3)}_j}{\partial \Theta^{(3)}_{jk}}\\
+=&(a^{(4)}_j-y)\sigma'(z^{(3)}_j)a_k^{(3)}\\
+=&\delta ^{(4)}_ja_k^{(3)}
+\end{align}</script><p>再计算 $a^{(4)}<em>j$ 偏置项 $\Theta^{(3)}</em>{j0}$：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\frac{\partial J(\Theta)}{\partial \Theta^{(3)}_{j0}} =& 
+\frac{\partial J(\Theta)}{\partial a^{(4)}_j}\frac{\partial a^{(4)}_j}{\partial z^{(3)}_j} \frac{\partial z^{(3)}_j}{\partial \Theta^{(3)}_{j0}}\\
+=&(a^{(4)}_j-y)\sigma'(z^{(3)}_j)\\
+=&\delta ^{(4)}_j
+\end{align}</script><p>再向前计算第二层的 $\Theta^{(2)}_{jk}$： </p>
+<script type="math/tex; mode=display">
+\begin{align}
+\frac{\partial J(\Theta)}{\partial \Theta^{(3)}_{jk}} =& 
+\frac{\partial J(\Theta)}{\partial a^{(3)}_{j}} \frac{\partial a^{(3)}_{j}}{\partial \Theta^{(3)}_{jk}}\\
+=&\biggr[\sum_{i=1}^{S_4}\bigr(\frac{\partial J(\Theta)}{\partial a^{(4)}_i}\frac{\partial a^{(4)}_i}{\partial z^{(3)}_i} \frac{\partial z^{(3)}_i}{\partial a^{(3)}_{j}}\bigr)\biggr]\biggr(  \frac{\partial a^{(3)}_{j}}{\partial z^{(2)}_j} \frac{\partial z^{(2)}_j}{\partial \Theta^{(2)}_{jk}} \biggr)\\
+
+=&\bigr(\delta ^{(4)}_1\Theta^{(3)}_{1j}+\delta ^{(4)}_2\Theta^{(3)}_{2j} + \delta ^{(4)}_3\Theta^{(3)}_{3j}\bigr)\bigr(\sigma'(z_j^{(2)})a_k^{(2)}\bigr) \\
+=&{\Theta_{\cdot j}^{(3)}}^T \delta^{(4)}\sigma'(z_j^{(2)})\cdot a_k^{(2)}\\
+=& \delta^{(3)}_ja_k^{(2)}
+\end{align}</script><p>计算 $a^{(3)}_1$ 偏置项 $\Theta^{(2)}_0$：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\frac{\partial J(\Theta)}{\partial \Theta^{(3)}_{j0}} =& 
+\frac{\partial J(\Theta)}{\partial a^{(3)}_{j}} \frac{\partial a^{(3)}_{j}}{\partial \Theta^{(3)}_{j0}}\\
+=&\biggr[\sum_{i=1}^{S_4}\bigr(\frac{\partial J(\Theta)}{\partial a^{(4)}_i}\frac{\partial a^{(4)}_i}{\partial z^{(3)}_i} \frac{\partial z^{(3)}_i}{\partial a^{(3)}_{j}}\bigr)\biggr]\biggr(  \frac{\partial a^{(3)}_{j}}{\partial z^{(2)}_j} \frac{\partial z^{(2)}_j}{\partial \Theta^{(2)}_{j0}} \biggr)\\
+
+=& \delta^{(3)}_j
+\end{align}</script><p>再往前求也是差不多的样子，我就不写了😵。在上面用到了一个简便写法：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\delta^{(4)}_j =& (\hat{y_j}-y^{(i)}_j) \sigma'(z^{(3)}_j)\\
+\delta^{(3)}_j =& {\Theta_{\cdot j}^{(3)}}^T\delta^{(4)}_j \sigma'(z^{(3)}_j)\\
+\delta^{(2)}_j =& {\Theta_{\cdot j}^{(2)}}^T\delta^{(2)}_j \sigma'(z^{(1)}_j)
+\end{align}</script><p>则：</p>
+<script type="math/tex; mode=display">
+\frac{\partial J(\Theta)}{\partial \Theta^{(l)}_{jk}} =\delta^{(l+1)}_ja_k^{(l)}</script><p>现在把正则化考虑在内，代价函数为：</p>
+<script type="math/tex; mode=display">
+J(\Theta) = \frac{1}{2m}\sum_{i=1}^m(h_\Theta(x^{(i)})-y^{(i)})^2+\frac{\lambda}{2m}\sum_{l=1}^{L-1}\sum_{k=1}^{S_l}\sum_{j=1}^{S_{l+1}}(\Theta^{(l)}_{jk})^2</script><p>则 $\Theta^{(l)}_{jk}$ 的偏导数为：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\frac{\partial }{\partial \Theta^{(l)}_{jk}}J(\Theta) =& \frac{1}{m}\bigr( \delta^{(l+1)}_ja_k^{(l)}+\lambda \Theta^{(l)}_{jk}\bigr)&(k\neq0)&\\
+\frac{\partial }{\partial \Theta^{(l)}_{j0}}J(\Theta) =& \frac{1}{m} \delta^{(l+1)}_j&(k=0)&
+\end{align}</script><p>如上，就是反向传播算法的大致推导过程。</p>
+<h2 id="随机初始化"><a href="#随机初始化" class="headerlink" title="随机初始化"></a>随机初始化</h2><p> 我们的目标是针对参数 $\Theta$ 来求代价函数 $J(\Theta)$ 的最小值。为了初始化神经网络，我们需要将每一个参数设置为一个很小的，接近零的随机值（比如使用正态分布 $N(0,\epsilon^2)$ 生成的随机值，其中设 $\epsilon=0.01$），之后对目标函数使用诸如梯度下降法的最优化算法。如果所有参数都用相同的值作为初始值（比如都为$0$），那么所有隐藏层单元最终会得到与输入值有关的，值相同的函数。随机初始化的目的是使<strong>对称失效</strong>。 </p>
+<h2 id="梯度检验"><a href="#梯度检验" class="headerlink" title="梯度检验"></a>梯度检验</h2><p>当我们对一个较为复杂的模型（例如神经网络）使用梯度下降算法时，可能会存在一些不容易察觉的错误，也就是代价看上去在不断减小，但最终的结果可能并不是最优解。为了避免这样的问题，我们采取一种叫做<strong>梯度数值检验</strong>（Numerical Gradient Checking）的方法。这种方法的思想是通过估计梯度值来检验我们计算的导数值是否真的是我们需要的。</p>
+<p>对梯度的估计采用的方法是在代价函数上沿着切线的方向选择离两个非常近的点然后计算两个点的平均值用以估计梯度。即对于某个特定的$\theta$ ，我们计算出在 $\theta-\epsilon$ 处和 $\theta+\epsilon$ 的代价值（$\epsilon$ 是一个非常小的值，通常选取 $\epsilon=0.001$），然后求两个代价的平均，用以估计在 $\theta$ 处的代价值。</p>
+<p>当 $\theta$ 是一个向量时，我们则需要对通过反向传播算法对偏导数进行检验。因为代价函数的偏导数检验只针对一个参数的改变进行检验，例如下面是一个只针对 $\theta_i$ 进行检验：</p>
+<script type="math/tex; mode=display">
+\frac{\partial J}{\partial\theta_i}=\frac{J(\theta_1,\theta_2,\cdots,\theta_i+\epsilon,\cdots,\theta_n)-J(\theta_1,\theta_2,\cdots,\theta_i-\epsilon,\cdots,\theta_n)}{2\epsilon}</script>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"><i class="fa fa-tag"></i> 机器学习</a>
+          
+            <a href="/tags/分类/" rel="tag"><i class="fa fa-tag"></i> 分类</a>
+          
+            <a href="/tags/监督学习/" rel="tag"><i class="fa fa-tag"></i> 监督学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/12/过拟合与正则化/" rel="next" title="模型评价">
+                <i class="fa fa-chevron-left"></i> 模型评价
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/29/SVM/" rel="prev" title="支持向量机">
+                支持向量机 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar1.jpg" alt="Fangchen Wu">
+            
+              <p class="site-author-name" itemprop="name">Fangchen Wu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/FrozenWu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:lalalafrozen@live.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/2881393720" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/wufangchen95" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#神经网络"><span class="nav-number">1.</span> <span class="nav-text">神经网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络模型"><span class="nav-number">1.1.</span> <span class="nav-text">神经网络模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反向传播算法-Back-Propagation-Alogorithm"><span class="nav-number">1.2.</span> <span class="nav-text">反向传播算法(Back Propagation Alogorithm)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#随机初始化"><span class="nav-number">1.3.</span> <span class="nav-text">随机初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#梯度检验"><span class="nav-number">1.4.</span> <span class="nav-text">梯度检验</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fangchen Wu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">全站字数统计&#58;</span>
+    
+    <span title="全站字数统计">57.2k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
