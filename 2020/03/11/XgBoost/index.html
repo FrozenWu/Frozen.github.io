@@ -80,14 +80,14 @@
 
 <meta name="keywords" content="机器学习,集成学习,分类">
 <meta property="og:type" content="article">
-<meta property="og:title" content="XgBoost">
+<meta property="og:title" content="XGBoost">
 <meta property="og:url" content="http://frozenwu.github.io/2020/03/11/XgBoost/index.html">
 <meta property="og:site_name" content="Frozen&#39;s">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://frozenwu.github.io/2020/03/11/XgBoost/机器学习_Machine+Learning.svg">
-<meta property="og:updated_time" content="2020-03-15T13:31:15.661Z">
+<meta property="og:updated_time" content="2020-08-10T11:23:25.830Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="XgBoost">
+<meta name="twitter:title" content="XGBoost">
 <meta name="twitter:image" content="http://frozenwu.github.io/2020/03/11/XgBoost/机器学习_Machine+Learning.svg">
 
 
@@ -124,7 +124,7 @@
 
 
 
-  <title>XgBoost | Frozen's</title>
+  <title>XGBoost | Frozen's</title>
   
 
 
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">XgBoost</h1>
+          <h1 class="post-title" itemprop="name headline">XGBoost</h1>
         
 
         <div class="post-meta">
@@ -301,8 +301,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-03-15T21:31:15+08:00">
-                2020-03-15
+              <time title="更新于" itemprop="dateModified" datetime="2020-08-10T19:23:25+08:00">
+                2020-08-10
               </time>
             
           </span>
@@ -359,8 +359,8 @@
       
         <p><img src="//frozenwu.github.io/2020/03/11/XgBoost/机器学习_Machine+Learning.svg" alt></p>
 <a id="more"></a>
-<h1 id="XgBoost"><a href="#XgBoost" class="headerlink" title="XgBoost"></a>XgBoost</h1><p>XgBoost 算法是 GBDT 算法的高级版本，属于 Boosting 算法的一种，基于加法模型的前向分布算法，利用 CART 树作为弱学习器，并且引入了正则项。</p>
-<p>假设 XgBoost 模型中 CART 树有 $K$ 个，有模型</p>
+<h1 id="XGBoost"><a href="#XGBoost" class="headerlink" title="XGBoost"></a>XGBoost</h1><h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p>XGBoost 算法是 GBDT 算法的高级版本，属于 Boosting 算法的一种，基于加法模型的前向分布算法，利用 CART 树作为弱学习器，并且引入了正则项。</p>
+<p>假设 XGBoost 模型中 CART 树有 $K$ 个，有模型</p>
 <script type="math/tex; mode=display">
 f_K(x)=\sum_{k=1}^KT(x;\Theta_k)</script><p>记正则项为 $\Omega(f_k)$ 为<strong>第 $k$ 颗树</strong>的正则项，有模型的代价函数 $J(\Theta)$</p>
 <script type="math/tex; mode=display">
@@ -393,7 +393,7 @@ T(x^{(i)};\Theta_k) = \sum_{j=1}^T w_jI(x^{(i)}\in R_j)</script><p>那么可以�
 \begin{align}
 J(\Theta) =&\sum_{i=1}^m \left(g^{(i)}_{k'-1}T(x^{(i)};\Theta_{k'}) + \frac 1 2h^{(i)}_{k'-1}T^2(x^{(i)};\Theta_{k'}) \right)\\
 &+ \gamma T + \frac1 2\lambda\sum_{j=1}^Tw^2_j\\
-=& \sum_{j=1}^T\left[ \sum_{i\in R_j}g^{(i)}_{k'-1}w_j + \frac1 2\left( \sum_{i\in R_j}h^{(i)}_{k'-1}+\lambda \right)w_j^2 \right]+\gamma T
+=& \sum_{j=1}^T\left[ \left ( \sum_{i\in R_j}g^{(i)}_{k'-1}\right ) w_j + \frac1 2\left( \sum_{i\in R_j}h^{(i)}_{k'-1}+\lambda \right)w_j^2 \right]+\gamma T
 \end{align}</script><p>令 $G<em>j,H_j$ 为在 $R_j$ 结点上的样本的 $g</em>{k’-1},h_{k’-1}$ 之和，即</p>
 <script type="math/tex; mode=display">
 G_j = \sum_{i\in R_j}g^{(i)}_{k'-1};\quad H_j = \sum_{i\in R_j}h^{(i)}_{k'-1}</script><p>代入则有</p>
@@ -402,7 +402,28 @@ J(\Theta) = \sum_{j=1}^T\left( G_jw_j + \frac1 2\left( H_j+\lambda \right)w_j^2 
 <script type="math/tex; mode=display">
 \hat{w}_j = -\frac{G_j}{H_j+\lambda}</script><p>进而有</p>
 <script type="math/tex; mode=display">
-J(\Theta) = -\frac1 2 \sum_{j=1}^T\frac{G_j^2}{h_j+\lambda}+\gamma T</script>
+J(\Theta) = -\frac1 2 \sum_{j=1}^T\frac{G_j^2}{H_j+\lambda}+\gamma T</script><p>但是上式需要遍历所有可能的树结构 $\Theta$，我们可以用一种贪婪算法来遍历结构：从一个树根开始迭代增加分支。假定一个节点 $I$ 被分为左右节点 $I_L,I_R$，$I=I_L\cup I_R$，我们可以计算出分裂该节点之后代价函数的减少情况：</p>
+<script type="math/tex; mode=display">
+J_\text{split} = \frac1 2 \left[  \frac{(\sum_{i\in I_L}g_i)^2}{(\sum_{i\in I_L}h_i)+\lambda}+\frac{(\sum_{i\in I_R}g_i)^2}{(\sum_{i\in I_R}h_i)+\lambda} - \frac{(\sum_{i\in I}g_i)^2}{(\sum_{i\in I}h_i)+\lambda} \right]-\gamma</script><p>可以用上式来评估该点是否值得分支。</p>
+<h2 id="防止过拟合"><a href="#防止过拟合" class="headerlink" title="防止过拟合"></a>防止过拟合</h2><p>由于树形模型容易过拟合，除了正则项，我们还可以引入学习率 $\eta$（可能是这样👇）:</p>
+<script type="math/tex; mode=display">
+J(\Theta) = \sum_{i=1}^m L\left(y^{(i)},f_{k'-1}(x^{(i)}) + \eta T(x^{(i)};\Theta_{k'})\right) + \Omega(f_K)</script><p>或者采用类似于随机森林的列采样，每棵树只对随机抽取的特征进行训练。</p>
+<h2 id="切分点选择"><a href="#切分点选择" class="headerlink" title="切分点选择"></a>切分点选择</h2><p>第一种方法就是遍历所有的属性的所有可能切分点，找出最佳切分点 $\hat J_\text{split}$。当然，如果数据量过大导致内存不能全部加载，则不能使用这种贪婪算法。</p>
+<p>第二种方法就是：对属性 $j$ 利用一组分位点 $S_j$ 进行切分</p>
+<script type="math/tex; mode=display">
+S_j=\{ s_{j1},s_{j2},\dots \}</script><p>将连续的数据依据这些分位点进行分桶。当想寻找切分点时，遍历这些分位点，找到最优位置即可。根据切分策略的不同，分为整个树只使用一组切分点与每个切分点都用一组切分点两种策略。</p>
+<p>在 XGBoost 中，运用了一种加权的方式。我们可以将代价函数重写成</p>
+<script type="math/tex; mode=display">
+\begin{align}
+J(\Theta) &= \sum_{i=1}^m \left(g^{(i)}_{k'-1}T(x^{(i)};\Theta_{k'}) + \frac 1 2h^{(i)}_{k'-1}T^2(x^{(i)};\Theta_{k'}) \right)
++ \Omega(f_{k'})\\
+&=\sum_{i=1}^m \frac 1 2 h^{(i)}_{k'-1}\left(2\frac {g^{(i)}_{k'-1}}{h^{(i)}_{k'-1}}T(x^{(i)};\Theta_{k'}) + T^2(x^{(i)};\Theta_{k'}) + (\frac {g^{(i)}_{k'-1}}{h^{(i)}_{k'-1}})^2\right)
++ \Omega(f_{k'})+C\\
+&=\sum_{i=1}^m \frac 1 2 h^{(i)}_{k'-1}\left(T(x^{(i)};\Theta_{k'}) - (-\frac {g^{(i)}_{k'-1}}{h^{(i)}_{k'-1}})\right)^2
++ \Omega(f_{k'})+C
+\end{align}</script><p>这样就可以把代价函数看成加权最小二乘法，权重为 $h^{(i)}<em>{k’-1}$，$-\frac {g^{(i)}</em>{k’-1}}{h^{(i)}_{k’-1}}$ 是二阶泰勒展开的最优点。</p>
+<h2 id="稀疏处理"><a href="#稀疏处理" class="headerlink" title="稀疏处理"></a>稀疏处理</h2><p>XGBoost 还可以自动处理空缺值。模型将属性 $j$ 的空缺的样本先不参与分支，将其归为一类 $I<em>{j,\text{null}}$，之后将其中的样本分别归入分支后的左右节点 $I_L,I_R$，比较一下那种情况的代价函数最优，选择最优的一边将 $I</em>{j,\text{null}}$ 中的样本归入其中。</p>
+
       
     </div>
     
@@ -527,7 +548,7 @@ J(\Theta) = -\frac1 2 \sum_{j=1}^T\frac{G_j^2}{h_j+\lambda}+\gamma T</script>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -538,7 +559,7 @@ J(\Theta) = -\frac1 2 \sum_{j=1}^T\frac{G_j^2}{h_j+\lambda}+\gamma T</script>
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -549,7 +570,7 @@ J(\Theta) = -\frac1 2 \sum_{j=1}^T\frac{G_j^2}{h_j+\lambda}+\gamma T</script>
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -610,7 +631,7 @@ J(\Theta) = -\frac1 2 \sum_{j=1}^T\frac{G_j^2}{h_j+\lambda}+\gamma T</script>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#XgBoost"><span class="nav-number">1.</span> <span class="nav-text">XgBoost</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#XGBoost"><span class="nav-number">1.</span> <span class="nav-text">XGBoost</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">1.1.</span> <span class="nav-text">模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#防止过拟合"><span class="nav-number">1.2.</span> <span class="nav-text">防止过拟合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#切分点选择"><span class="nav-number">1.3.</span> <span class="nav-text">切分点选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#稀疏处理"><span class="nav-number">1.4.</span> <span class="nav-text">稀疏处理</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -644,7 +665,7 @@ J(\Theta) = -\frac1 2 \sum_{j=1}^T\frac{G_j^2}{h_j+\lambda}+\gamma T</script>
     
       <span class="post-meta-item-text">全站字数统计&#58;</span>
     
-    <span title="全站字数统计">57.2k</span>
+    <span title="全站字数统计">59.3k</span>
   
 </div>
 
