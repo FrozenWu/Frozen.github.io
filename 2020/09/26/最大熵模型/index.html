@@ -67,7 +67,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="机器学习,">
 
 
 
@@ -78,16 +78,18 @@
 
 
 
+<meta name="description" content="最大熵原理当你发现了一枚硬币，可能不知道硬币的密度是否均匀，材质如何。但如果有人让你猜测这枚硬币掉在地上时出现正面与反面的概率，你可能毫不犹豫的回答 $\frac 1  2$，可是你知道这看似简单的不能再简单的问题背后隐藏的原理吗？ 最大熵原理就可一很清楚的解释这一问题。最大熵原理认为，学习概率模型时，所有的概率分布中，熵最大的模型总是最好的。 关于均匀分布假设离散随机变量 $X$ 的分布是 $P">
+<meta name="keywords" content="机器学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【游戏测评】GR1">
-<meta property="og:url" content="http://frozenwu.github.io/2020/06/25/GR1/index.html">
+<meta property="og:title" content="最大熵模型">
+<meta property="og:url" content="http://frozenwu.github.io/2020/09/26/最大熵模型/index.html">
 <meta property="og:site_name" content="Frozen&#39;s">
+<meta property="og:description" content="最大熵原理当你发现了一枚硬币，可能不知道硬币的密度是否均匀，材质如何。但如果有人让你猜测这枚硬币掉在地上时出现正面与反面的概率，你可能毫不犹豫的回答 $\frac 1  2$，可是你知道这看似简单的不能再简单的问题背后隐藏的原理吗？ 最大熵原理就可一很清楚的解释这一问题。最大熵原理认为，学习概率模型时，所有的概率分布中，熵最大的模型总是最好的。 关于均匀分布假设离散随机变量 $X$ 的分布是 $P">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://frozenwu.github.io/2020/06/25/GR1/title.gif">
-<meta property="og:updated_time" content="2020-06-25T13:43:46.115Z">
+<meta property="og:updated_time" content="2020-09-29T11:15:35.469Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【游戏测评】GR1">
-<meta name="twitter:image" content="http://frozenwu.github.io/2020/06/25/GR1/title.gif">
+<meta name="twitter:title" content="最大熵模型">
+<meta name="twitter:description" content="最大熵原理当你发现了一枚硬币，可能不知道硬币的密度是否均匀，材质如何。但如果有人让你猜测这枚硬币掉在地上时出现正面与反面的概率，你可能毫不犹豫的回答 $\frac 1  2$，可是你知道这看似简单的不能再简单的问题背后隐藏的原理吗？ 最大熵原理就可一很清楚的解释这一问题。最大熵原理认为，学习概率模型时，所有的概率分布中，熵最大的模型总是最好的。 关于均匀分布假设离散随机变量 $X$ 的分布是 $P">
 
 
 
@@ -117,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://frozenwu.github.io/2020/06/25/GR1/">
+  <link rel="canonical" href="http://frozenwu.github.io/2020/09/26/最大熵模型/">
 
 
 
 
 
-  <title>【游戏测评】GR1 | Frozen's</title>
+  <title>最大熵模型 | Frozen's</title>
   
 
 
@@ -252,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://frozenwu.github.io/2020/06/25/GR1/">
+    <link itemprop="mainEntityOfPage" href="http://frozenwu.github.io/2020/09/26/最大熵模型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Fangchen Wu">
@@ -269,7 +271,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">【游戏测评】GR1</h1>
+          <h1 class="post-title" itemprop="name headline">最大熵模型</h1>
         
 
         <div class="post-meta">
@@ -284,8 +286,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-25T21:28:13+08:00">
-                2020-06-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-26T18:08:38+08:00">
+                2020-09-26
               </time>
             
 
@@ -300,12 +302,34 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-06-25T21:43:46+08:00">
-                2020-06-25
+              <time title="更新于" itemprop="dateModified" datetime="2020-09-29T19:15:35+08:00">
+                2020-09-29
               </time>
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -334,8 +358,139 @@
       
 
       
-        <p><img src="//frozenwu.github.io/2020/06/25/GR1/title.gif" alt></p>
-<a id="more"></a>
+        <h1 id="最大熵原理"><a href="#最大熵原理" class="headerlink" title="最大熵原理"></a>最大熵原理</h1><p>当你发现了一枚硬币，可能不知道硬币的密度是否均匀，材质如何。但如果有人让你猜测这枚硬币掉在地上时出现正面与反面的概率，你可能毫不犹豫的回答 $\frac 1  2$，可是你知道这看似简单的不能再简单的问题背后隐藏的原理吗？</p>
+<p>最大熵原理就可一很清楚的解释这一问题。<strong>最大熵原理</strong>认为，学习概率模型时，所有的概率分布中，熵最大的模型总是最好的。</p>
+<h2 id="关于均匀分布"><a href="#关于均匀分布" class="headerlink" title="关于均匀分布"></a>关于均匀分布</h2><p>假设离散随机变量 $X$ 的分布是 $P(X)$，则其熵为：</p>
+<script type="math/tex; mode=display">
+H(P) = -\sum _{x}P(x)\log P(x)</script><p>熵满足下列不等式：</p>
+<script type="math/tex; mode=display">
+0\leq H(P)\leq \log|X|</script><p>当且仅当 $X$ 是均匀分布时，右边的等号成立，$H(P)$ 最大。</p>
+<h2 id="关于正态分布"><a href="#关于正态分布" class="headerlink" title="关于正态分布"></a>关于正态分布</h2><p>对于连续的随机变量 $X$ 的分布是 $P(X)$，则其熵为：</p>
+<script type="math/tex; mode=display">
+H(P)=-\int_{-\infty}^{\infty}P(x)\log P(x)dx</script><p>如果已知分布的均值 $\mu$ 与方差 $\sigma^2$，如果想使得熵最大，那么则需要求解下面的规划问题：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\max_P & \quad H(P)=-\int_{-\infty}^{\infty}P(x)\log P(x)dx\\
+\text{s.t.}&\quad 
+\cases{
+\int_{-\infty}^{\infty}P(x)dx=1\\
+\int_{-\infty}^{\infty}xP(x)dx=\mu\\
+\int_{-\infty}^{\infty}(x-\mu)^2P(x)dx=\sigma^2
+}
+\end{align}</script><p>引入拉格朗日乘子 $\lambda_0,\lambda_1,\lambda_2$，则：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+L(P,\lambda)=&-\int_{-\infty}^{\infty}P(x)\log P(x)dx+\lambda_0\left(\int_{-\infty}^{\infty}P(x)dx-1\right)\\
+&+\lambda_1\left(\int_{-\infty}^{\infty}xP(x)dx-\mu\right)+\lambda_2\left(\int_{-\infty}^{\infty}(x-\mu)^2P(x)dx-\sigma^2\right)\\
+=&\int_{-\infty}^{\infty}P(x)\log P(x)+\lambda_0P(x)+\lambda_1xP(x)+\lambda_2(x-\mu)^2P(x)dx+C
+\end{align}</script><p>令</p>
+<script type="math/tex; mode=display">
+\begin{align}
+F &=P(x)\log P(x)+\lambda_0P(x)+\lambda_1xP(x)+\lambda_2(x-\mu)^2P(x)\\
+
+\end{align}</script><p>则 $F$ 为 $P(x)$ 的泛函：</p>
+<script type="math/tex; mode=display">
+F=J[P(x)]</script><p>根据欧拉-拉格朗日方程：</p>
+<script type="math/tex; mode=display">
+\frac{\partial F}{\partial P(x)}-\frac{d}{dx}\left(\frac{\partial F}{\partial P'(x)}\right)=0</script><p>$\frac{\partial L}{\partial p}=0$ 等价于</p>
+<script type="math/tex; mode=display">
+\frac{\partial F}{\partial P(x)}=\log P(x)+1+\lambda_0+\lambda_1x+\lambda_2(x-\mu)^2=0</script><p>可得</p>
+<script type="math/tex; mode=display">
+\begin{align}
+P(x)&=\exp(-1-\lambda_0)\exp(\lambda_1x+\lambda_2(x-\mu)^2)\\
+&=C\exp\lambda_2(x-\mu+\frac{\lambda_1}{2\lambda_2} )^2
+\end{align}</script><p>可知分布 $P(x)$ 关于 $x=\mu-\frac{\lambda_1}{2\lambda_2}$ 对称，则 $\mu =\mu-\frac{\lambda_1}{2\lambda_2}$。可知 $\lambda_1=0$。</p>
+<p>根据约束可最终得出结论：当知道分布的均值与方差（或者一阶矩与二阶矩）时，正态分布 $P\sim \mathcal N(\mu,\sigma^2)$ 熵最大。</p>
+<h1 id="最大熵模型"><a href="#最大熵模型" class="headerlink" title="最大熵模型"></a>最大熵模型</h1><p>而将最大熵原理应用于分类问题中，就得到了<strong>最大熵模型</strong>。</p>
+<p>假设分类模型是一个条件分布 $P(Y|X)$，$X\in \mathcal X\subseteq\mathbb R^n$ 表示输入，$Y\in \mathcal Y$ 表示输出。给定一个训练集</p>
+<script type="math/tex; mode=display">
+T = \{
+(x_1, y_1),(x_2, y_2),\cdots,(x_N, y_N)
+\}</script><p>根据数据集可以确定联合分布 $P(X,Y)$ 与边缘分布 $P(X)$ 的经验分布 $\tilde{P}(X,Y),\tilde P(X)$，记 $\nu(X=x,Y=y)$ 为指样本中出现 $(x,y)$ 的频数，$\nu(X=x)$ 为指样本中输入 $x$ 的频数。计算方式如下：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+
+&\tilde P(X=x,Y=y)=\frac{\nu(X=x,Y=y)}N\\
+&\tilde P(X=x)=\frac{\nu(X=x)}N
+
+\end{align}</script><p>知道了分布之后，那么你就可以求得一些关于分布 $\tilde P$ 统计量，比如 $E<em>\tilde P(x)$， $Var</em>\tilde P(x)$ 之类的。</p>
+<p>由于已知的样本的可能需要满足一些约束，或者说既定事实，那么我们假设某一输入 $x$ 和输出 $y$ 存在一些约束，并且用一特征函数 $f(x,y)$ 来表示：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+1，\quad 输入x 和输出 y 存在约束关系\\
+0，\quad 否则
+\end{cases}</script><p>这样，我们可以得到特征函数 $f(x,y)$ 关于 $\tilde{P}(X,Y)$ 的期望：</p>
+<script type="math/tex; mode=display">
+E_\tilde P(f) = \sum_{x,y}\tilde P(x,y)f(x,y)=\Delta</script><p>👇 其实这里挺难理解的，什么是既定事实呢？</p>
+<p>假如一个骰子🎲是特殊的，在数据集中没有点数为 6 的结果，因为点数为 6 的结果都被记作了 5，那么我们的模型就需要下面这个约束，或者说既定事实：</p>
+<script type="math/tex; mode=display">
+\tilde P(X=5)=\frac 2 6</script><p>或者说根据先验知识和数据可以知道：</p>
+<script type="math/tex; mode=display">
+\tilde P(X=1) + \tilde P(X=5) = \frac 1 2</script><p>👆 这些约束进行数学语言的描述就成了上面的式子。</p>
+<p>定义 $P(Y\ |\ X)$ 的条件熵为：（关于条件熵，大家可以看👉<a href="https://frozenwu.github.io/2020/03/18/%E7%86%B5/">熵</a>）</p>
+<script type="math/tex; mode=display">
+H(P)=-\sum_{x,y}\tilde P(x)P(y\ |\ x)\log P(y\ |\ x)</script><p>而最大熵模型需要训练目标函数则是得出一个分布 $P$，使得条件熵最大，并且这个分布还要满足根据数据所知的既定事实 $E_\tilde P(f)$：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\max_P&\quad H(P)\\
+\text{s.t.}&\quad
+\cases{
+\sum_y P(y\ |\ x)=1\\
+E_P(f_i)=E_\tilde P(f_i)=\Delta_i,\quad i=1,2,\cdots,n
+}
+\end{align}</script><p>其中</p>
+<script type="math/tex; mode=display">
+E_P(f)=\sum_{x,y}\tilde P(x)P(y\ |\ x)f(x,y)</script><p>表示特征函数 $f(x,y)$ 关于模型 $P(Y\ |\ X)$ 的期望值。</p>
+<p>将最大化问题改写成最小化问题：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\min_P&\quad \sum_{x,y}\tilde P(x)P(y\ |\ x)\log P(y\ |\ x)\\
+\text{s.t.}&\quad
+\cases
+{\sum_y P(y\ |\ x)=1\\
+E_P(f_i)=E_\tilde P(f_i)=\Delta_i,\quad i=1,2,\cdots,n}
+
+
+\end{align}</script><p>引入一组拉格朗日乘子 $\lambda_0,\lambda_1,\lambda_2,\cdots,\lambda_n$，定义拉格朗日函数：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+L(P,\lambda) &=\sum_{x,y}\tilde P(x)P(y\ |\ x)\log P(y\ |\ x)
++\lambda_0\left(1-\sum_y P(y\ |\ x)\right)\\
+&+\sum_{i=1}^n\lambda_i\left(\sum_{x,y}\tilde P(x)P(y\ |\ x)f_i(x,y)
+- \sum_{x,y}\tilde P(x,y)f_i(x,y)
+\right)
+\end{align}</script><p>原始优化问题是</p>
+<script type="math/tex; mode=display">
+\min_P\max_\lambda L(P,\lambda)</script><p>则其对偶问题是</p>
+<script type="math/tex; mode=display">
+\max_\lambda\min_PL(P,\lambda)</script><p>求 $L$ 对 $P$ 的偏导：</p>
+<script type="math/tex; mode=display">
+\frac{\partial L(P,\lambda)}{\partial P(y\ |\ x)}=\sum_{x,y}\tilde P(x)\left(
+\log P(y\ |\ x)+1-\lambda_0-\sum_{i=1}^n\lambda_if_i(x,y)
+\right)</script><p>在 $\tilde P(x)&gt;0$ 的情况下，解得</p>
+<script type="math/tex; mode=display">
+P(y\ |\ x) = \exp\left(\sum_{i=1}^n\lambda_if_i(x,y)+\lambda_0-1\right)=\frac
+{\exp\left(\sum_{i=1}^n\lambda_if_i(x,y)\right)}
+{\exp(1-\lambda_0)}</script><p>由于 $\sum_yP(y\ |\ x)=1$，得</p>
+<script type="math/tex; mode=display">
+P^*(y\ |\ x)=\frac
+{1}
+{Z(x)}
+\exp\left(\sum_{i=1}^n\lambda_if_i(x,y)\right)</script><p>$Z(x)$ 为配分函数，</p>
+<script type="math/tex; mode=display">
+Z(x) = \sum_y\exp\left(\sum_{i=1}^n\lambda_if_i(x,y)\right)</script><p>在 统计学习方法第二版 6.2.4 节 中证明了 $\max_\lambda P^*(y\ |\ x)$ 与最大熵模型的极大似然等价，有兴趣可以看看。</p>
+<p>6.2.4 节的最后还提到：二分类的逻辑回归模型为</p>
+<script type="math/tex; mode=display">
+P(Y=1|x)=\frac{\exp(w^Tx)}{1+\exp(w^Tx)}\\
+P(Y=0|x)=\frac{1}{1+\exp(w^Tx)}</script><p>与最大熵模型相近，而学习的方式也是求对数似然估计：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\max_w\log J(w)&=
+\max_w\log h(x)^{\nu(y=1)}(1-h(x))^{\nu(y=0)}
+\\
+&=\max_w\sum_{i=1}^{m}\left [y^{(i)}\log h(x)+(1-y^{(i)})log(1-h(x))\right]
+\\
+\end{align}</script>
       
     </div>
     
@@ -350,6 +505,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"><i class="fa fa-tag"></i> 机器学习</a>
+          
+        </div>
+      
 
       
       
@@ -359,8 +520,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/04/28/插值法/" rel="next" title="插值法">
-                <i class="fa fa-chevron-left"></i> 插值法
+              <a href="/2020/09/26/推荐系统利用用户行为数据/" rel="next" title="推荐系统利用用户行为数据">
+                <i class="fa fa-chevron-left"></i> 推荐系统利用用户行为数据
               </a>
             
           </div>
@@ -368,10 +529,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/09/24/推荐系统评价指标/" rel="prev" title="【推荐系统】评测指标">
-                【推荐系统】评测指标 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -423,8 +580,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -514,6 +680,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#最大熵原理"><span class="nav-number">1.</span> <span class="nav-text">最大熵原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于均匀分布"><span class="nav-number">1.1.</span> <span class="nav-text">关于均匀分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于正态分布"><span class="nav-number">1.2.</span> <span class="nav-text">关于正态分布</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最大熵模型"><span class="nav-number">2.</span> <span class="nav-text">最大熵模型</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

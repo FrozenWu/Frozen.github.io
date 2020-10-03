@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Frozen&#39;s">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://frozenwu.github.io/2020/03/18/熵/机器学习_Machine+Learning.svg">
-<meta property="og:updated_time" content="2020-03-30T13:49:43.977Z">
+<meta property="og:updated_time" content="2020-09-29T06:34:00.342Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="熵">
 <meta name="twitter:image" content="http://frozenwu.github.io/2020/03/18/熵/机器学习_Machine+Learning.svg">
@@ -301,8 +301,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-03-30T21:49:43+08:00">
-                2020-03-30
+              <time title="更新于" itemprop="dateModified" datetime="2020-09-29T14:34:00+08:00">
+                2020-09-29
               </time>
             
           </span>
@@ -399,7 +399,15 @@ J(\theta) &= \sum_{i=1}^m L_i(\theta)\\
 {|y=0|}{m}log(1-h_\theta(x))\right]\\
 &= -\frac{1}{m}\sum_{i=1}^{m}\left [y^{(i)}log(h_\theta(x))+(1-y^{(i)})log(1-h_\theta(x))\right]
 \end{align}</script><p>成了！</p>
-
+<h1 id="条件熵-Conditional-Entropy"><a href="#条件熵-Conditional-Entropy" class="headerlink" title="条件熵(Conditional Entropy)"></a>条件熵(Conditional Entropy)</h1><p>条件熵 $H(Y|X)$ 表示在已知随机变量 $Y$ 的条件下，随机变量 $X$ 的不确定性。</p>
+<script type="math/tex; mode=display">
+\begin{align}
+H(Y|X) &= \sum_xP(x)H(Y|X=x)\\
+&=-\sum_x P(x)\sum_yP(y\ |\ x)\log P(y\ |\ x)\\
+&=-\sum_{x,y}P(x,y)\log P(y\ |\ x)
+\end{align}</script><p>条件熵 $H(Y|X)$ 相当于联合熵 $H(X,Y)$ 减去单独的熵 $H(X)$，即</p>
+<script type="math/tex; mode=display">
+H(Y|X)=H(X,Y)-H(X)</script>
       
     </div>
     
@@ -522,7 +530,7 @@ J(\theta) &= \sum_{i=1}^m L_i(\theta)\\
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -605,7 +613,7 @@ J(\theta) &= \sum_{i=1}^m L_i(\theta)\\
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#熵-Entropy"><span class="nav-number">1.</span> <span class="nav-text">熵(Entropy)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#KL-散度-Kullback-Leibler-Divergence"><span class="nav-number">2.</span> <span class="nav-text">KL 散度(Kullback-Leibler Divergence)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#交叉熵-Cross-Entropy"><span class="nav-number">3.</span> <span class="nav-text">交叉熵(Cross Entropy)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#熵-Entropy"><span class="nav-number">1.</span> <span class="nav-text">熵(Entropy)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#KL-散度-Kullback-Leibler-Divergence"><span class="nav-number">2.</span> <span class="nav-text">KL 散度(Kullback-Leibler Divergence)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#交叉熵-Cross-Entropy"><span class="nav-number">3.</span> <span class="nav-text">交叉熵(Cross Entropy)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#条件熵-Conditional-Entropy"><span class="nav-number">4.</span> <span class="nav-text">条件熵(Conditional Entropy)</span></a></li></ol></div>
             
 
           </div>
@@ -639,7 +647,7 @@ J(\theta) &= \sum_{i=1}^m L_i(\theta)\\
     
       <span class="post-meta-item-text">全站字数统计&#58;</span>
     
-    <span title="全站字数统计">59.3k</span>
+    <span title="全站字数统计">61k</span>
   
 </div>
 
