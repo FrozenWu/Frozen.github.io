@@ -420,7 +420,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/10/21/安装Pytorch/" itemprop="url">win10下 安装Pytorch-GPU 以及CUDA</a></h1>
+                <a class="post-title-link" href="/2020/10/21/安装Pytorch/" itemprop="url">在win10下安装Pytorch-GPU</a></h1>
         
 
         <div class="post-meta">
@@ -451,7 +451,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-10-29T11:32:01+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2020-10-29T15:43:17+08:00">
                 2020-10-29
               </time>
             
@@ -509,7 +509,7 @@
       
         
           
-            <h1 id="安装-Anaconda："><a href="#安装-Anaconda：" class="headerlink" title="安装 Anaconda："></a>安装 Anaconda：</h1><p>去 Anaconda <a href="https://www.anaconda.com/products/individual#windows" target="_blank" rel="noopener">官网</a> 下载最新版本的 Anaconda。</p>
+            <h1 id="安装-Anaconda"><a href="#安装-Anaconda" class="headerlink" title="安装 Anaconda"></a>安装 Anaconda</h1><p>去 Anaconda <a href="https://www.anaconda.com/products/individual#windows" target="_blank" rel="noopener">官网</a> 下载最新版本的 Anaconda。</p>
 <p>安装的时候记得：Install for 项选 <strong>All Users</strong>。</p>
 <p><img src="//frozenwu.github.io/2020/10/21/安装Pytorch/pic1.png" style="zoom: 67%;"></p>
 <p>把这个添加环境变量的勾也打上。</p>
@@ -559,7 +559,23 @@
 <p>比如</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">conda</span> <span class="selector-tag">install</span> <span class="selector-tag">--use-local</span> <span class="selector-tag">C</span>:\<span class="selector-tag">Users</span>\<span class="selector-tag">Frozen</span>\<span class="selector-tag">Desktop</span>\<span class="selector-tag">torchvision-0</span><span class="selector-class">.7</span><span class="selector-class">.0-py38_cu102</span><span class="selector-class">.tar</span><span class="selector-class">.bz2</span></span><br></pre></td></tr></table></figure>
 <p>然后就大功告成！</p>
-<h1 id="测试一下"><a href="#测试一下" class="headerlink" title="测试一下"></a>测试一下</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line">print(torch.__version__)</span><br><span class="line">print(torch.cuda.is_available())</span><br></pre></td></tr></table></figure>
+<h1 id="测试一下！"><a href="#测试一下！" class="headerlink" title="测试一下！"></a>测试一下！</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line">print(torch.__version__)</span><br><span class="line">print(torch.cuda.is_available())</span><br></pre></td></tr></table></figure>
+<h1 id="关于-Jupyter-Lab"><a href="#关于-Jupyter-Lab" class="headerlink" title="关于 Jupyter Lab"></a>关于 Jupyter Lab</h1><h2 id="插件失效"><a href="#插件失效" class="headerlink" title="插件失效"></a>插件失效</h2><p>有可能插件不好使还没反应。可能是因为删除插件又重新安装出现的问题。输入</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jupyter labextension <span class="built_in">list</span></span><br></pre></td></tr></table></figure>
+<p>会发现插件不仅在安装栏里，还在卸载栏里。</p>
+<p>解决方法就是删掉下面这个文件再重启：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[conda_root]<span class="regexp">/envs/</span>[env_name]<span class="regexp">/share/</span>jupyter<span class="regexp">/lab/</span>settings<span class="regexp">/build_config.json</span></span><br></pre></td></tr></table></figure>
+<h2 id="让-Jupyter-运行于指定虚拟环境"><a href="#让-Jupyter-运行于指定虚拟环境" class="headerlink" title="让 Jupyter 运行于指定虚拟环境"></a>让 Jupyter 运行于指定虚拟环境</h2><p>安装这个：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install nb_conda_kernels</span><br></pre></td></tr></table></figure>
+<p>然后就可以选了。</p>
+<h2 id="更改默认路径"><a href="#更改默认路径" class="headerlink" title="更改默认路径"></a>更改默认路径</h2><p>在控制台输入：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jupyter-lab --genereate-config</span><br></pre></td></tr></table></figure>
+<p>生成 Jupyter 配置文件。可以看到文件的位置，比如像我这样：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Writing<span class="built_in"> default config </span><span class="keyword">to</span>: C:\Users\Frozen\.jupyter\jupyter_notebook_config.py</span><br></pre></td></tr></table></figure>
+<p>找到它，并且查找：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># c.NotebookApp.notebook_dir = ''</span></span><br></pre></td></tr></table></figure>
+<p>删除前面的 <code># + 空格</code>，在引号内输入路径，比如：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c<span class="selector-class">.NotebookApp</span><span class="selector-class">.notebook_dir</span> = <span class="string">'D:\Project'</span></span><br></pre></td></tr></table></figure>
 
           
         
@@ -658,8 +674,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-09-29T19:15:35+08:00">
-                2020-09-29
+              <time title="更新于" itemprop="dateModified" datetime="2020-10-29T11:38:22+08:00">
+                2020-10-29
               </time>
             
           </span>
@@ -715,141 +731,15 @@
 
       
         
-          
-            <h1 id="最大熵原理"><a href="#最大熵原理" class="headerlink" title="最大熵原理"></a>最大熵原理</h1><p>当你发现了一枚硬币，可能不知道硬币的密度是否均匀，材质如何。但如果有人让你猜测这枚硬币掉在地上时出现正面与反面的概率，你可能毫不犹豫的回答 $\frac 1  2$，可是你知道这看似简单的不能再简单的问题背后隐藏的原理吗？</p>
+          <h1 id="最大熵原理"><a href="#最大熵原理" class="headerlink" title="最大熵原理"></a>最大熵原理</h1><p>当你发现了一枚硬币，可能不知道硬币的密度是否均匀，材质如何。但如果有人让你猜测这枚硬币掉在地上时出现正面与反面的概率，你可能毫不犹豫的回答 $\frac 1  2$，可是你知道这看似简单的不能再简单的问题背后隐藏的原理吗？</p>
 <p>最大熵原理就可一很清楚的解释这一问题。<strong>最大熵原理</strong>认为，学习概率模型时，所有的概率分布中，熵最大的模型总是最好的。</p>
-<h2 id="关于均匀分布"><a href="#关于均匀分布" class="headerlink" title="关于均匀分布"></a>关于均匀分布</h2><p>假设离散随机变量 $X$ 的分布是 $P(X)$，则其熵为：</p>
-<script type="math/tex; mode=display">
-H(P) = -\sum _{x}P(x)\log P(x)</script><p>熵满足下列不等式：</p>
-<script type="math/tex; mode=display">
-0\leq H(P)\leq \log|X|</script><p>当且仅当 $X$ 是均匀分布时，右边的等号成立，$H(P)$ 最大。</p>
-<h2 id="关于正态分布"><a href="#关于正态分布" class="headerlink" title="关于正态分布"></a>关于正态分布</h2><p>对于连续的随机变量 $X$ 的分布是 $P(X)$，则其熵为：</p>
-<script type="math/tex; mode=display">
-H(P)=-\int_{-\infty}^{\infty}P(x)\log P(x)dx</script><p>如果已知分布的均值 $\mu$ 与方差 $\sigma^2$，如果想使得熵最大，那么则需要求解下面的规划问题：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\max_P & \quad H(P)=-\int_{-\infty}^{\infty}P(x)\log P(x)dx\\
-\text{s.t.}&\quad 
-\cases{
-\int_{-\infty}^{\infty}P(x)dx=1\\
-\int_{-\infty}^{\infty}xP(x)dx=\mu\\
-\int_{-\infty}^{\infty}(x-\mu)^2P(x)dx=\sigma^2
-}
-\end{align}</script><p>引入拉格朗日乘子 $\lambda_0,\lambda_1,\lambda_2$，则：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-L(P,\lambda)=&-\int_{-\infty}^{\infty}P(x)\log P(x)dx+\lambda_0\left(\int_{-\infty}^{\infty}P(x)dx-1\right)\\
-&+\lambda_1\left(\int_{-\infty}^{\infty}xP(x)dx-\mu\right)+\lambda_2\left(\int_{-\infty}^{\infty}(x-\mu)^2P(x)dx-\sigma^2\right)\\
-=&\int_{-\infty}^{\infty}P(x)\log P(x)+\lambda_0P(x)+\lambda_1xP(x)+\lambda_2(x-\mu)^2P(x)dx+C
-\end{align}</script><p>令</p>
-<script type="math/tex; mode=display">
-\begin{align}
-F &=P(x)\log P(x)+\lambda_0P(x)+\lambda_1xP(x)+\lambda_2(x-\mu)^2P(x)\\
-
-\end{align}</script><p>则 $F$ 为 $P(x)$ 的泛函：</p>
-<script type="math/tex; mode=display">
-F=J[P(x)]</script><p>根据欧拉-拉格朗日方程：</p>
-<script type="math/tex; mode=display">
-\frac{\partial F}{\partial P(x)}-\frac{d}{dx}\left(\frac{\partial F}{\partial P'(x)}\right)=0</script><p>$\frac{\partial L}{\partial p}=0$ 等价于</p>
-<script type="math/tex; mode=display">
-\frac{\partial F}{\partial P(x)}=\log P(x)+1+\lambda_0+\lambda_1x+\lambda_2(x-\mu)^2=0</script><p>可得</p>
-<script type="math/tex; mode=display">
-\begin{align}
-P(x)&=\exp(-1-\lambda_0)\exp(\lambda_1x+\lambda_2(x-\mu)^2)\\
-&=C\exp\lambda_2(x-\mu+\frac{\lambda_1}{2\lambda_2} )^2
-\end{align}</script><p>可知分布 $P(x)$ 关于 $x=\mu-\frac{\lambda_1}{2\lambda_2}$ 对称，则 $\mu =\mu-\frac{\lambda_1}{2\lambda_2}$。可知 $\lambda_1=0$。</p>
-<p>根据约束可最终得出结论：当知道分布的均值与方差（或者一阶矩与二阶矩）时，正态分布 $P\sim \mathcal N(\mu,\sigma^2)$ 熵最大。</p>
-<h1 id="最大熵模型"><a href="#最大熵模型" class="headerlink" title="最大熵模型"></a>最大熵模型</h1><p>而将最大熵原理应用于分类问题中，就得到了<strong>最大熵模型</strong>。</p>
-<p>假设分类模型是一个条件分布 $P(Y|X)$，$X\in \mathcal X\subseteq\mathbb R^n$ 表示输入，$Y\in \mathcal Y$ 表示输出。给定一个训练集</p>
-<script type="math/tex; mode=display">
-T = \{
-(x_1, y_1),(x_2, y_2),\cdots,(x_N, y_N)
-\}</script><p>根据数据集可以确定联合分布 $P(X,Y)$ 与边缘分布 $P(X)$ 的经验分布 $\tilde{P}(X,Y),\tilde P(X)$，记 $\nu(X=x,Y=y)$ 为指样本中出现 $(x,y)$ 的频数，$\nu(X=x)$ 为指样本中输入 $x$ 的频数。计算方式如下：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-
-&\tilde P(X=x,Y=y)=\frac{\nu(X=x,Y=y)}N\\
-&\tilde P(X=x)=\frac{\nu(X=x)}N
-
-\end{align}</script><p>知道了分布之后，那么你就可以求得一些关于分布 $\tilde P$ 统计量，比如 $E<em>\tilde P(x)$， $Var</em>\tilde P(x)$ 之类的。</p>
-<p>由于已知的样本的可能需要满足一些约束，或者说既定事实，那么我们假设某一输入 $x$ 和输出 $y$ 存在一些约束，并且用一特征函数 $f(x,y)$ 来表示：</p>
-<script type="math/tex; mode=display">
-\begin{cases}
-1，\quad 输入x 和输出 y 存在约束关系\\
-0，\quad 否则
-\end{cases}</script><p>这样，我们可以得到特征函数 $f(x,y)$ 关于 $\tilde{P}(X,Y)$ 的期望：</p>
-<script type="math/tex; mode=display">
-E_\tilde P(f) = \sum_{x,y}\tilde P(x,y)f(x,y)=\Delta</script><p>👇 其实这里挺难理解的，什么是既定事实呢？</p>
-<p>假如一个骰子🎲是特殊的，在数据集中没有点数为 6 的结果，因为点数为 6 的结果都被记作了 5，那么我们的模型就需要下面这个约束，或者说既定事实：</p>
-<script type="math/tex; mode=display">
-\tilde P(X=5)=\frac 2 6</script><p>或者说根据先验知识和数据可以知道：</p>
-<script type="math/tex; mode=display">
-\tilde P(X=1) + \tilde P(X=5) = \frac 1 2</script><p>👆 这些约束进行数学语言的描述就成了上面的式子。</p>
-<p>定义 $P(Y\ |\ X)$ 的条件熵为：（关于条件熵，大家可以看👉<a href="https://frozenwu.github.io/2020/03/18/%E7%86%B5/">熵</a>）</p>
-<script type="math/tex; mode=display">
-H(P)=-\sum_{x,y}\tilde P(x)P(y\ |\ x)\log P(y\ |\ x)</script><p>而最大熵模型需要训练目标函数则是得出一个分布 $P$，使得条件熵最大，并且这个分布还要满足根据数据所知的既定事实 $E_\tilde P(f)$：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\max_P&\quad H(P)\\
-\text{s.t.}&\quad
-\cases{
-\sum_y P(y\ |\ x)=1\\
-E_P(f_i)=E_\tilde P(f_i)=\Delta_i,\quad i=1,2,\cdots,n
-}
-\end{align}</script><p>其中</p>
-<script type="math/tex; mode=display">
-E_P(f)=\sum_{x,y}\tilde P(x)P(y\ |\ x)f(x,y)</script><p>表示特征函数 $f(x,y)$ 关于模型 $P(Y\ |\ X)$ 的期望值。</p>
-<p>将最大化问题改写成最小化问题：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\min_P&\quad \sum_{x,y}\tilde P(x)P(y\ |\ x)\log P(y\ |\ x)\\
-\text{s.t.}&\quad
-\cases
-{\sum_y P(y\ |\ x)=1\\
-E_P(f_i)=E_\tilde P(f_i)=\Delta_i,\quad i=1,2,\cdots,n}
-
-
-\end{align}</script><p>引入一组拉格朗日乘子 $\lambda_0,\lambda_1,\lambda_2,\cdots,\lambda_n$，定义拉格朗日函数：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-L(P,\lambda) &=\sum_{x,y}\tilde P(x)P(y\ |\ x)\log P(y\ |\ x)
-+\lambda_0\left(1-\sum_y P(y\ |\ x)\right)\\
-&+\sum_{i=1}^n\lambda_i\left(\sum_{x,y}\tilde P(x)P(y\ |\ x)f_i(x,y)
-- \sum_{x,y}\tilde P(x,y)f_i(x,y)
-\right)
-\end{align}</script><p>原始优化问题是</p>
-<script type="math/tex; mode=display">
-\min_P\max_\lambda L(P,\lambda)</script><p>则其对偶问题是</p>
-<script type="math/tex; mode=display">
-\max_\lambda\min_PL(P,\lambda)</script><p>求 $L$ 对 $P$ 的偏导：</p>
-<script type="math/tex; mode=display">
-\frac{\partial L(P,\lambda)}{\partial P(y\ |\ x)}=\sum_{x,y}\tilde P(x)\left(
-\log P(y\ |\ x)+1-\lambda_0-\sum_{i=1}^n\lambda_if_i(x,y)
-\right)</script><p>在 $\tilde P(x)&gt;0$ 的情况下，解得</p>
-<script type="math/tex; mode=display">
-P(y\ |\ x) = \exp\left(\sum_{i=1}^n\lambda_if_i(x,y)+\lambda_0-1\right)=\frac
-{\exp\left(\sum_{i=1}^n\lambda_if_i(x,y)\right)}
-{\exp(1-\lambda_0)}</script><p>由于 $\sum_yP(y\ |\ x)=1$，得</p>
-<script type="math/tex; mode=display">
-P^*(y\ |\ x)=\frac
-{1}
-{Z(x)}
-\exp\left(\sum_{i=1}^n\lambda_if_i(x,y)\right)</script><p>$Z(x)$ 为配分函数，</p>
-<script type="math/tex; mode=display">
-Z(x) = \sum_y\exp\left(\sum_{i=1}^n\lambda_if_i(x,y)\right)</script><p>在 统计学习方法第二版 6.2.4 节 中证明了 $\max_\lambda P^*(y\ |\ x)$ 与最大熵模型的极大似然等价，有兴趣可以看看。</p>
-<p>6.2.4 节的最后还提到：二分类的逻辑回归模型为</p>
-<script type="math/tex; mode=display">
-P(Y=1|x)=\frac{\exp(w^Tx)}{1+\exp(w^Tx)}\\
-P(Y=0|x)=\frac{1}{1+\exp(w^Tx)}</script><p>与最大熵模型相近，而学习的方式也是求对数似然估计：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\max_w\log J(w)&=
-\max_w\log h(x)^{\nu(y=1)}(1-h(x))^{\nu(y=0)}
-\\
-&=\max_w\sum_{i=1}^{m}\left [y^{(i)}\log h(x)+(1-y^{(i)})log(1-h(x))\right]
-\\
-\end{align}</script>
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/09/26/最大熵模型/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1080,8 +970,8 @@ P(Y=0|x)=\frac{1}{1+\exp(w^Tx)}</script><p>与最大熵模型相近，而学习�
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-09-25T17:56:17+08:00">
-                2020-09-25
+              <time title="更新于" itemprop="dateModified" datetime="2020-10-29T11:38:39+08:00">
+                2020-10-29
               </time>
             
           </span>
@@ -1137,90 +1027,14 @@ P(Y=0|x)=\frac{1}{1+\exp(w^Tx)}</script><p>与最大熵模型相近，而学习�
 
       
         
-          
-            <h1 id="推荐系统"><a href="#推荐系统" class="headerlink" title="推荐系统"></a>推荐系统</h1><p>好长时间都没有更新我的 blog 啦，在学校好无聊，买了本<strong>《推荐系统实践》</strong>看看，把笔记写在下面啦！</p>
-<h2 id="实验方法"><a href="#实验方法" class="headerlink" title="实验方法"></a>实验方法</h2><ul>
-<li><p>离线实验</p>
-<p>离线实验是指通过系统生成发日志来训练测试模型与算法。</p>
-</li>
-<li><p>用户调查</p>
-<p>通过让用户对推荐系统的结果进行评测。</p>
-</li>
-<li><p>在线实验</p>
-<p>将系统上线做 AB测试。</p>
-</li>
-</ul>
-<h2 id="评测指标"><a href="#评测指标" class="headerlink" title="评测指标"></a>评测指标</h2><ul>
-<li><p>用户满意度</p>
-<p>通过对用户进行问卷调查或者在线实验来获得用户对推荐系统的满意程度。更一般的情况下，我们可以利用点击率，用户停留时间和转化率来度量用户满意度。</p>
-</li>
-<li><p>预测准确率</p>
-<p>从离线数据集计算得出。不同的研究方向有不同的准确度指标</p>
-<ul>
-<li><p>评分预测</p>
-<p>根据用户之前对商品的评分，来推测该用户会对未评分的物品的<strong>评分</strong>。一般通过均方误差 RMSE 与平均绝对误差 MAE 计算。其定义为：</p>
-<script type="math/tex; mode=display">
-\text{RMSE} = \sqrt{
-\frac{\sum_{u,i \in T}(r_{ui}-\hat r_{ui})^2}
-{|T|}
-}</script><script type="math/tex; mode=display">
-\text{MAE} =\frac{\sum_{u,i \in T}|r_{ui}-\hat r_{ui}|}
-{|T|}</script><p>其中 $u$ 指用户 (uesr)， $i$ 指物品 (item)，$r<em>{ui}$ 是用户 $u$ 对物品 $i$ 的实际评分，$\hat r</em>{ui}$ 是预测评分，$T$ 是数据集。</p>
-</li>
-<li><p>TopN 推荐</p>
-<p>有些推荐系统会给用户一个<strong>个性化的推荐列表</strong>，这种推荐叫做 TopN 推荐，TopN 推荐的准确率主要通过准确率 (Precision) 和召回率 (Recall) 度量。其定义为：</p>
-<script type="math/tex; mode=display">
-\text{Precision} = \frac
-{\sum_{u\in U}|R(u)\cap T(u)|}
-{\sum_{u\in U}|R(u)|}</script><script type="math/tex; mode=display">
-\text{Recall} = \frac
-{\sum_{u\in U}|R(u)\cap T(u)|}
-{\sum_{u\in U}|T(u)|}</script><p>其中 $R(u)$ 是根据用户在训练集上的行为，计算生成的推荐列表，$T(u)$ 是用户在测试集上的行为列表。</p>
-</li>
-</ul>
-</li>
-<li><p>覆盖率</p>
-<p>物品的购买量服从长尾分布，也就是热门的物品占网站总销量的很大一部分，而好的推荐系统会去挖掘物品的长尾部分。而覆盖率就是描述推荐系统挖掘长尾物品能力的统计量。假设系统用户的合集为 $U$，物品的合集为 $I$，推荐系统推荐给用户 $u$ 的长度为 $N$ 物品列表为 $R(u)$，覆盖率可以通过下式计算。</p>
-<script type="math/tex; mode=display">
-\text{Coverage} = \frac
-{|\cup_{u\in U}R(u)|}
-{|I|}</script><p>上面的估计比较粗略，他只能统计一个物品是否被推荐，而不能看出物品在每位用户推荐列表中的分布。信息熵与基尼系数可以用来定义覆盖率：</p>
-<script type="math/tex; mode=display">
-H = -\sum_{i=1}^np(i)\log p(i)</script><p>其中 $p(i)$ 是物品 $i$ 的流行度初一所有物品流行度之和。</p>
-<script type="math/tex; mode=display">
-G = \frac{1}{n-1}\sum_{j=1}^n(2j-n-1)p(i_j)</script><p>其中 $p(i_j)$ 是按照物品流行度 $p$ 从小到大排序的物品列表中第 $j$ 个物品。</p>
-</li>
-<li><p>多样性</p>
-<p>每位用户的兴趣是多样的，你不能因为一个用户爱学习就只给该用户推荐学习类的书籍，如果这名用户在晚上十二点搜索物品，看到全是学习的书籍，那他肯定会生气的。多样性描述了物品列表中的不相似性。假设 $s(i,j)\in [0, 1]$ 定义了物品 $i$ 与物品 $j$ 的相似度，那么用户 $u$ 的推荐列表 $R(u)$ 的多样性如下：</p>
-<script type="math/tex; mode=display">
-\text{Diversity}(R(u)) = 1 - \frac
-{\sum_{i,j\in R(u)}s(i, j)}
-{\frac1 2|R(u)|(|R(u)|-1)}</script><p> 而推荐系统整体的多样性可以定义为所有用户推荐列表多样性的平均值：</p>
-<script type="math/tex; mode=display">
-\text{Diversity} = \frac
-{1}
-{|U|}
-\sum_{u\in U} \text{Diversity}(R(u))</script><p>可以看出，推荐列表的多样性与相似度成反比。</p>
-</li>
-<li><p>新颖性</p>
-<p>新颖性是给用户推荐那些之前没有听说过的物品，评测新颖性最简单的办法就是利用推荐结果的平均流行度，流行度月底，那么结果可能就有比较高的新颖性。</p>
-</li>
-<li><p>惊喜度</p>
-<p>新颖性和惊喜度是有一定区分的，新颖性与用户兴趣相关，而惊喜度是推荐的物品与用户的兴趣与习惯完全无关，但用户在购买或阅读后感觉不错的程度。</p>
-</li>
-<li><p>信任度</p>
-<p>用户是否信任推荐列表推荐的物品。度量推荐系统只能通过问卷调查的方式来获得数据。可以通过增加推荐系统的透明度（让用户和了解推荐系统的机制，比如注明：购买该商品的用户也购买了如下产品）和考虑用户的社交信息（推荐用户的社交好友购买的物品）。</p>
-</li>
-<li><p>实时性</p>
-<p>能够根据用户的行为及时反馈，并且能将新加入的物品即使推荐给用户。</p>
-</li>
-<li><p>健壮性</p>
-<p>是否能够抵御恶意攻击。</p>
-</li>
-</ul>
-<p>有些指标可以离线计算，有些只能在线获得。对于可以离线优化的指标，可以在给定覆盖率、多样性等限制条件下，尽可能提高预测准确度。</p>
-
-          
+          <h1 id="推荐系统"><a href="#推荐系统" class="headerlink" title="推荐系统"></a>推荐系统</h1><p>好长时间都没有更新我的 blog 啦，在学校好无聊，买了本<strong>《推荐系统实践》</strong>看看，把笔记写在下面啦！</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/09/24/推荐系统评价指标/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1456,8 +1270,8 @@ G = \frac{1}{n-1}\sum_{j=1}^n(2j-n-1)p(i_j)</script><p>其中 $p(i_j)$ 是按照
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-05-15T21:36:51+08:00">
-                2020-05-15
+              <time title="更新于" itemprop="dateModified" datetime="2020-10-29T11:40:40+08:00">
+                2020-10-29
               </time>
             
           </span>
@@ -1513,8 +1327,7 @@ G = \frac{1}{n-1}\sum_{j=1}^n(2j-n-1)p(i_j)</script><p>其中 $p(i_j)$ 是按照
 
       
         
-          
-            <h1 id="插值法"><a href="#插值法" class="headerlink" title="插值法"></a>插值法</h1><p>简单来说，插值法是通过已知的离散的数据来推测未知数据的一种方法。</p>
+          <h1 id="插值法"><a href="#插值法" class="headerlink" title="插值法"></a>插值法</h1><p>简单来说，插值法是通过已知的离散的数据来推测未知数据的一种方法。</p>
 <p>举个例子：我现在有这么一组数据</p>
 <div class="table-container">
 <table>
@@ -1539,144 +1352,13 @@ G = \frac{1}{n-1}\sum_{j=1}^n(2j-n-1)p(i_j)</script><p>其中 $p(i_j)$ 是按照
 </table>
 </div>
 <p>在 $x=2$ 时的值缺失了，不见了，被墨水挡上了😢。如何来使用已知的离散数据点来预测 $y$ 呢？或许我们可以用数据健全的四个点来拟合出一个多项式函数 $p(x)$，再将 $x=2$ 代入，求得 $p(2)$，用它来预测缺失值，这样问题就解决啦！有了这条曲线，我们不仅可以来近似的填补空缺，还可以来近似我想知道的任意一个比如 $x = 3.5$ 时的 $y$。</p>
-<p>接下来介绍的就是如何来求解这样一个多项式函数 $p(x)$，至于拉格朗日插值或者牛顿插值的区别，只是求解方法的不同。</p>
-<h2 id="拉格朗日插值"><a href="#拉格朗日插值" class="headerlink" title="拉格朗日插值"></a>拉格朗日插值</h2><p>我现在有三个已知点 $(1, 3),(3, 6),(4, 7)$，通过代入下面这个有三个未知系数的二次多项式的假设：</p>
-<script type="math/tex; mode=display">
-p(x) = a + bx + cx^2</script><p>形成如下的方程组：</p>
-<script type="math/tex; mode=display">
-\begin{cases}
-3 = a + b + c\\
-6 = a + 3b + 9c\\
-7 = a + 4b +16c
-\end{cases}</script><p>只要求解出 $a,b,c$，就能得出过已知点的二次多项式，这样就可以填补空缺值了。实际上，拉格朗日想了一个更好的办法不用去求解上面的方程组，而是通过用以下的方式来进行求解的。</p>
-<p>拉格朗日想通过三个较为简单的二次函数相加来达到目标。</p>
-<ul>
-<li>第一个函数 $p_1(x)$ 在 $x_1=1$ 处的值为 $1$，在  $x_2,x_3$ 处的值为 $0$。</li>
-<li>第二个函数 $p_2(x)$ 在 $x_2=3$ 处的值为 $1$，在  $x_1,x_3$ 处的值为 $0$。</li>
-<li>第三个函数 $p_3(x)$ 在 $x_3=4$ 处的值为 $1$，在  $x_1,x_2$ 处的值为 $0$。</li>
-</ul>
-<p>这样，只要用每个 $y$ 去乘对应的 $p_i(x)$，再把三个函数加起来：</p>
-<script type="math/tex; mode=display">
-p(x) = 3p_1(x) + 6p_2(x) + 7p_3(x)</script><p>这样就可以得到我们想要拟合的函数啦！</p>
-<p>接下来的问题就是如何来求解 $p_i(x)$ 了。</p>
-<p>为了一般化表示，我们不妨将三个已知的点表示成 $(x_1,y_1),(x_2,y_2),(x_3,y_3)$。而 $p_1(x)$ 可以构造为</p>
-<script type="math/tex; mode=display">
-p_1(x) = \frac{(x-x_2)(x-x_3)}{(x_1-x_2)(x_1-x_3)}</script><p>如果已知的点数为 $n$，可记作通式</p>
-<script type="math/tex; mode=display">
-p_i(x) = \prod_{j\neq i}^{1\leq j\leq n}\frac{(x-x_j)}{(x_i-x_j)}</script><p>最终的多项式结果为</p>
-<script type="math/tex; mode=display">
-p(x) = \sum_{i=1}^ny_ip_i(x)</script><p>其中 $p_i(x)$ 被称作 $2$ 次插值基函数。</p>
-<h2 id="牛顿插值"><a href="#牛顿插值" class="headerlink" title="牛顿插值"></a>牛顿插值</h2><p>在已知的数据点新增时，拉格朗日插值似乎需要对每个基函数需要修改，在维数过高的时候会耗费较大的计算量。牛顿插值法解决了这个问题。</p>
-<p>如果我们现在有两个已知点 $(x_1,y_1),(x_2,y_2)$ 过函数 $p(x)$，我们可以用一个函数 $p_1(x)$ 来表示</p>
-<script type="math/tex; mode=display">
-p_1(x) = y_1 + c(x-x_1)</script><p>其中 $c$ 为一个常数。这个函数显然在 $x=x_1$ 时 $p_1(x_1)=y_1$，若想令在 $x=x_2$ 时 $p_1(x_2)=y_2$，代入即可求处 $c$：</p>
-<script type="math/tex; mode=display">
-c=\frac{p(x_2)-p(x_1)}{x_2-x_1}</script><p>如果新增一个点 $(x_3,y_3)$，我们可以用一个二次函数 $p_2(x)$ 来表示</p>
-<script type="math/tex; mode=display">
-p_2(x) = p_1(x) + c_2(x-x_1)(x-x_2)</script><p>想令在 $x=x_3$ 时 $p_2(x_3)=y_3$，代入即可求处 $c_2$</p>
-<script type="math/tex; mode=display">
-c_2 = \frac{\left[\frac{p(x_3)-p(x_2)}{x_3-x_2}\right] - \left[\frac{p(x_2)-p(x_1)}{x_2-x_1}\right]}{x_3-x_1}</script><p>我们引入<strong>均差</strong>这一概念：</p>
-<p>一阶均差：</p>
-<script type="math/tex; mode=display">
-p[x_i,x_j] = \frac{p(x_i)-p(x_j)}{x_i-x_j},\quad i\neq j</script><p>二阶均差</p>
-<script type="math/tex; mode=display">
-p[x_i,x_j,x_k] = \frac{p[x_i,x_j]-p[x_j,x_k]}{x_i-x_k},\quad i\neq j\neq k</script><p>关于均差，看一下下面的均差表可以直观不少:</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">$x$</th>
-<th style="text-align:center">$p(x)$</th>
-<th style="text-align:center">一阶均差</th>
-<th style="text-align:center">二阶均差</th>
-<th style="text-align:center">三阶均差</th>
-<th style="text-align:center">$\cdots$</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">$x_1$</td>
-<td style="text-align:center">$p(x_1)$</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">$x_2$</td>
-<td style="text-align:center">$p(x_2)$</td>
-<td style="text-align:center">$p[x_2,x_1]$</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">$x_3$</td>
-<td style="text-align:center">$p(x_3)$</td>
-<td style="text-align:center">$p[x_3,x_2]$</td>
-<td style="text-align:center">$p[x_3,x_2,x_1]$</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">$x_4$</td>
-<td style="text-align:center">$p(x_4)$</td>
-<td style="text-align:center">$p[x_4,x_3]$</td>
-<td style="text-align:center">$p[x_4,x_3,x_2]$</td>
-<td style="text-align:center">$p[x_4,x_3,x_2,x_1]$</td>
-<td style="text-align:center">$\cdots$</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>以此类推，我们就可以得到牛顿插值法的通式：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-p(x) = p(x_1)+p[x_1,x_2](x-x_1) + p[x_1,x_2,x_3](x-x_1)(x-x_2)
-\end{align}</script><p>这样，在引入新的已知点 $(x_4,y_4)$ 拟合新的公式的时候，只用计算新的三阶均差 $p[x_4,x_3,x_2,x_1]$ 即可，而不需要重新计算所有的基函数。</p>
-<h2 id="范德蒙行列式"><a href="#范德蒙行列式" class="headerlink" title="范德蒙行列式"></a>范德蒙行列式</h2><p>回到最初我们需要对付的那个方程组：</p>
-<script type="math/tex; mode=display">
-\begin{cases}
-y_1 = a + bx_1 + cx^2_1\\
-y_2 = a + bx_2 + cx^2_2\\
-y_3 = a + bx_3 + cx^2_3
-\end{cases}</script><p>可以将其写成矩阵形式：</p>
-<script type="math/tex; mode=display">
-\begin{pmatrix}
-
-y_1\\y_2\\y_3
-
-\end{pmatrix}
-=
-\begin{pmatrix}
-
-1 & x_1 & x_1^2\\
-1 & x_2 & x_2^2\\
-1 & x_3 & x_3^2
-
-\end{pmatrix}
-
-\begin{pmatrix}
-
-a\\b\\c
-
-\end{pmatrix}</script><p>其中系数矩阵 </p>
-<script type="math/tex; mode=display">
-A=\begin{pmatrix}
-
-1 & x_1 & x_1^2\\
-1 & x_2 & x_2^2\\
-1 & x_3 & x_3^2
-
-\end{pmatrix}</script><p>便是范德蒙矩阵。我们都知道，范德蒙行列式 </p>
-<script type="math/tex; mode=display">
-\begin{align}
-\det(A)=&\prod_{1\leq j< i\leq 3}(x_i-x_j)\\
-=&(x_3-x_1)(x_3-x_2)(x_2-x_1)
-\end{align}</script><p>当 $A$ 为非奇异矩阵时，方程组只有唯一解。也就是说，只要 $x_1,x_2,x_3$ 两两不同，则拉格朗日插值法与牛顿插值法所得到的插值函数便会完全一样。</p>
-<p>除了这些插值方法，还有 <strong>Hermit 插值</strong>、<strong>分段线性插值</strong>、<strong>样条插值</strong>，如果有用到会继续写，嘻嘻🤭。</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/04/28/插值法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -2356,7 +2038,7 @@ i + 2j \\
     
       <span class="post-meta-item-text">全站字数统计&#58;</span>
     
-    <span title="全站字数统计">61.9k</span>
+    <span title="全站字数统计">62.1k</span>
   
 </div>
 

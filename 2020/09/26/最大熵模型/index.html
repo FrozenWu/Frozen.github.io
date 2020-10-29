@@ -78,18 +78,18 @@
 
 
 
-<meta name="description" content="最大熵原理当你发现了一枚硬币，可能不知道硬币的密度是否均匀，材质如何。但如果有人让你猜测这枚硬币掉在地上时出现正面与反面的概率，你可能毫不犹豫的回答 $\frac 1  2$，可是你知道这看似简单的不能再简单的问题背后隐藏的原理吗？ 最大熵原理就可一很清楚的解释这一问题。最大熵原理认为，学习概率模型时，所有的概率分布中，熵最大的模型总是最好的。 关于均匀分布假设离散随机变量 $X$ 的分布是 $P">
+<meta name="description" content="最大熵原理当你发现了一枚硬币，可能不知道硬币的密度是否均匀，材质如何。但如果有人让你猜测这枚硬币掉在地上时出现正面与反面的概率，你可能毫不犹豫的回答 $\frac 1  2$，可是你知道这看似简单的不能再简单的问题背后隐藏的原理吗？ 最大熵原理就可一很清楚的解释这一问题。最大熵原理认为，学习概率模型时，所有的概率分布中，熵最大的模型总是最好的。">
 <meta name="keywords" content="机器学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="最大熵模型">
 <meta property="og:url" content="http://frozenwu.github.io/2020/09/26/最大熵模型/index.html">
 <meta property="og:site_name" content="Frozen&#39;s">
-<meta property="og:description" content="最大熵原理当你发现了一枚硬币，可能不知道硬币的密度是否均匀，材质如何。但如果有人让你猜测这枚硬币掉在地上时出现正面与反面的概率，你可能毫不犹豫的回答 $\frac 1  2$，可是你知道这看似简单的不能再简单的问题背后隐藏的原理吗？ 最大熵原理就可一很清楚的解释这一问题。最大熵原理认为，学习概率模型时，所有的概率分布中，熵最大的模型总是最好的。 关于均匀分布假设离散随机变量 $X$ 的分布是 $P">
+<meta property="og:description" content="最大熵原理当你发现了一枚硬币，可能不知道硬币的密度是否均匀，材质如何。但如果有人让你猜测这枚硬币掉在地上时出现正面与反面的概率，你可能毫不犹豫的回答 $\frac 1  2$，可是你知道这看似简单的不能再简单的问题背后隐藏的原理吗？ 最大熵原理就可一很清楚的解释这一问题。最大熵原理认为，学习概率模型时，所有的概率分布中，熵最大的模型总是最好的。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-09-29T11:15:35.469Z">
+<meta property="og:updated_time" content="2020-10-29T03:38:22.308Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="最大熵模型">
-<meta name="twitter:description" content="最大熵原理当你发现了一枚硬币，可能不知道硬币的密度是否均匀，材质如何。但如果有人让你猜测这枚硬币掉在地上时出现正面与反面的概率，你可能毫不犹豫的回答 $\frac 1  2$，可是你知道这看似简单的不能再简单的问题背后隐藏的原理吗？ 最大熵原理就可一很清楚的解释这一问题。最大熵原理认为，学习概率模型时，所有的概率分布中，熵最大的模型总是最好的。 关于均匀分布假设离散随机变量 $X$ 的分布是 $P">
+<meta name="twitter:description" content="最大熵原理当你发现了一枚硬币，可能不知道硬币的密度是否均匀，材质如何。但如果有人让你猜测这枚硬币掉在地上时出现正面与反面的概率，你可能毫不犹豫的回答 $\frac 1  2$，可是你知道这看似简单的不能再简单的问题背后隐藏的原理吗？ 最大熵原理就可一很清楚的解释这一问题。最大熵原理认为，学习概率模型时，所有的概率分布中，熵最大的模型总是最好的。">
 
 
 
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-09-29T19:15:35+08:00">
-                2020-09-29
+              <time title="更新于" itemprop="dateModified" datetime="2020-10-29T11:38:22+08:00">
+                2020-10-29
               </time>
             
           </span>
@@ -360,6 +360,7 @@
       
         <h1 id="最大熵原理"><a href="#最大熵原理" class="headerlink" title="最大熵原理"></a>最大熵原理</h1><p>当你发现了一枚硬币，可能不知道硬币的密度是否均匀，材质如何。但如果有人让你猜测这枚硬币掉在地上时出现正面与反面的概率，你可能毫不犹豫的回答 $\frac 1  2$，可是你知道这看似简单的不能再简单的问题背后隐藏的原理吗？</p>
 <p>最大熵原理就可一很清楚的解释这一问题。<strong>最大熵原理</strong>认为，学习概率模型时，所有的概率分布中，熵最大的模型总是最好的。</p>
+<a id="more"></a>
 <h2 id="关于均匀分布"><a href="#关于均匀分布" class="headerlink" title="关于均匀分布"></a>关于均匀分布</h2><p>假设离散随机变量 $X$ 的分布是 $P(X)$，则其熵为：</p>
 <script type="math/tex; mode=display">
 H(P) = -\sum _{x}P(x)\log P(x)</script><p>熵满足下列不等式：</p>
@@ -530,8 +531,8 @@ P(Y=0|x)=\frac{1}{1+\exp(w^Tx)}</script><p>与最大熵模型相近，而学习�
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/10/21/安装Pytorch/" rel="prev" title="win10下 安装Pytorch-GPU 以及CUDA">
-                win10下 安装Pytorch-GPU 以及CUDA <i class="fa fa-chevron-right"></i>
+              <a href="/2020/10/21/安装Pytorch/" rel="prev" title="在win10下安装Pytorch-GPU">
+                在win10下安装Pytorch-GPU <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -728,7 +729,7 @@ P(Y=0|x)=\frac{1}{1+\exp(w^Tx)}</script><p>与最大熵模型相近，而学习�
     
       <span class="post-meta-item-text">全站字数统计&#58;</span>
     
-    <span title="全站字数统计">61.9k</span>
+    <span title="全站字数统计">62.1k</span>
   
 </div>
 
