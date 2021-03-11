@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+<link href="https://fonts.loli.net/css?family=Noto+Serif+SC:400,500,700&display=swap&subset=cyrillic,vietnamese" rel="stylesheet">
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="深度学习,最优化算法,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Adam(Adaptive Moment Estimation)好久没写博客了，最近研究深度学习，这几天将深度学习以及目标检测方向的一些基础的东西整理下，争取四五月份找个好实习！冲冲冲📣 Adam是常见的优化深度神经网络的最优化方法，普通的最优化方法（比如BGD，SGD）面对更为复杂的代价函数往往会陷入局部震荡或者陷入鞍点，难以收敛。于是便引入了 动量(Momentum) 这种物理学概念，让优化">
+<meta name="keywords" content="深度学习,最优化算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Adam">
+<meta property="og:url" content="http://frozenwu.github.io/2021/03/02/Adam/index.html">
+<meta property="og:site_name" content="Frozen&#39;s">
+<meta property="og:description" content="Adam(Adaptive Moment Estimation)好久没写博客了，最近研究深度学习，这几天将深度学习以及目标检测方向的一些基础的东西整理下，争取四五月份找个好实习！冲冲冲📣 Adam是常见的优化深度神经网络的最优化方法，普通的最优化方法（比如BGD，SGD）面对更为复杂的代价函数往往会陷入局部震荡或者陷入鞍点，难以收敛。于是便引入了 动量(Momentum) 这种物理学概念，让优化">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://frozenwu.github.io/QQ图片20210310191143.png">
+<meta property="og:image" content="http://frozenwu.github.io/download.png">
+<meta property="og:updated_time" content="2021-03-11T12:24:49.866Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Adam">
+<meta name="twitter:description" content="Adam(Adaptive Moment Estimation)好久没写博客了，最近研究深度学习，这几天将深度学习以及目标检测方向的一些基础的东西整理下，争取四五月份找个好实习！冲冲冲📣 Adam是常见的优化深度神经网络的最优化方法，普通的最优化方法（比如BGD，SGD）面对更为复杂的代价函数往往会陷入局部震荡或者陷入鞍点，难以收敛。于是便引入了 动量(Momentum) 这种物理学概念，让优化">
+<meta name="twitter:image" content="http://frozenwu.github.io/QQ图片20210310191143.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://frozenwu.github.io/2021/03/02/Adam/">
+
+
+
+
+
+  <title>Adam | Frozen's</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+  <a href="https://github.com/FrozenWu" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Frozen's</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://frozenwu.github.io/2021/03/02/Adam/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fangchen Wu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Frozen's">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Adam</h1>
+        
+
+        <div class="post-meta">
+
+            
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-02T22:29:22+08:00">
+                2021-03-02
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2021-03-11T20:24:49+08:00">
+                2021-03-11
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/最优化方法/" itemprop="url" rel="index">
+                    <span itemprop="name">最优化方法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Adam-Adaptive-Moment-Estimation"><a href="#Adam-Adaptive-Moment-Estimation" class="headerlink" title="Adam(Adaptive Moment Estimation)"></a>Adam(Adaptive Moment Estimation)</h1><p>好久没写博客了，最近研究深度学习，这几天将深度学习以及目标检测方向的一些基础的东西整理下，争取四五月份找个好实习！冲冲冲📣</p>
+<p>Adam是常见的优化深度神经网络的最优化方法，普通的最优化方法（比如BGD，SGD）面对更为复杂的代价函数往往会陷入局部震荡或者陷入鞍点，难以收敛。于是便引入了 <strong>动量(Momentum)</strong> 这种物理学概念，让优化方向不只沿着梯度方向进行，还需要参考参数之前一步的运动方向。</p>
+<h2 id="SGD-with-Momentum"><a href="#SGD-with-Momentum" class="headerlink" title="SGD with Momentum"></a>SGD with Momentum</h2><p>对于一个代价函数 $L(w_i)$ 来说，普通的 SGD 算法的某一步只需要沿着某一个方向前进一步：</p>
+<script type="math/tex; mode=display">
+w_i := w_i - \eta\frac{\partial L}{\partial w_i}</script><p>带有动量的 SGD 算法则引入了速度的变化。令 $w_t$ 为 第 $t$ 次后迭代的参数的值，$\Delta w_t$ 是算上学习率 $\eta$，$w$ 在本次迭代中沿着负梯度方向应该前进的方向与大小，即：</p>
+<script type="math/tex; mode=display">
+\Delta w_t =- \eta\nabla L(w)</script><p>则带有动量的 SGD 算法的迭代公式为：</p>
+<script type="math/tex; mode=display">
+v_{t+1} = \gamma v_t +\Delta w_t\\
+w_{t+1} = w_t + v_{t+1}</script><p>其中 $\gamma$ 为速度的衰减系数，一般为 0.9。</p>
+<p>可以将这种方法比作一个斜坡上的小球，斜坡越陡，他的加速度越大，他的下降也就越快。所以带有动量的 SGD 算法会加速收敛，同时也可以有效的减少参数陷入鞍点的问题，但在优化过程中还有一些震荡的现象。</p>
+<p><img src="/QQ图片20210310191143.png" style="zoom:80%;"></p>
+<h2 id="NAG（Nesterov-accelerated-gradient）"><a href="#NAG（Nesterov-accelerated-gradient）" class="headerlink" title="NAG（Nesterov accelerated gradient）"></a>NAG（Nesterov accelerated gradient）</h2><p>带有动量的 SGD 算法似乎是先计算梯度，再累积速度，这样很有可能会导致下降过头而导致震荡，NAG 算法则与 SGD 算法相反，先预见性的看见了自己之后的位置 $w_t’$，再进行梯度计算，这样相当于走了两步：</p>
+<script type="math/tex; mode=display">
+w_t' = w_t + \gamma v_t\\
+\Delta w_t =- \eta\nabla L(w_t')\\
+v_{t+1} = \gamma v_t +\Delta w_t\\
+w_{t+1} = w_t + v_{t+1}</script><p>根据这篇 <a href="https://zhuanlan.zhihu.com/p/22810533" target="_blank" rel="noopener">博文</a> 的结论，这种走了两步这种方法更像牛顿法的前瞻性，因此比带有动量的 SGD 算法的震荡更小，但 $\eta\nabla L(w_t’)$ 计算会出现问题，需要更多的数学技巧来解决。</p>
+<h2 id="Adagrad"><a href="#Adagrad" class="headerlink" title="Adagrad"></a>Adagrad</h2><p>通常在深度网络训练到一定程度时，当前的学习率相对与代价函数来说太大以至于不能继续收敛，于是需要手动减小学习率 $\eta$，而 Adagrad 则是一种可以自动调节学习率大小的优化算法。</p>
+<p>假设有一组待优化的参数 $w={w_1, w_2,…,w_n}$，则参数 $w_i$ 的梯度方向为：</p>
+<script type="math/tex; mode=display">
+\Delta w_i =\nabla_{w_i} L(w)</script><p>那么迭代方程如下：</p>
+<script type="math/tex; mode=display">
+w_i:=w_i-\frac{\eta}{\sqrt{g_{i}+\epsilon} }\Delta w_i</script><p>其中 $g<em>i$ 储存着历史梯度  $\nabla</em>{ w_i} L(w)$ 平方和，即：</p>
+<script type="math/tex; mode=display">
+g_i = \sum^t \nabla_{ w_i} L(w^{(t)})^2</script><p>可以看出 $g_i$ 随着训练逐渐递增，则其学习率会逐渐变小，实现了自适应调节学习率。同时，学习率的变化也会与参数直接挂钩，在同一问题中出现次数少的特征优化速率会比出现次数多的特征快得多。</p>
+<p>但是这种方法会导致在学习一定时间后学习率会变得无限小，在数据过多或者 batch 较小时，累积的梯度平方和会将优化将陷入停滞。</p>
+<h2 id="RMSProp"><a href="#RMSProp" class="headerlink" title="RMSProp"></a>RMSProp</h2><p>比起累计历史梯度平方和  $g_i$，RMSProp 算法将其替换为历史梯度平方和的期望。与动量的累积相似，在 $t$ 时刻的梯度期望(或者说指数衰减的平均)的更新公式为：</p>
+<script type="math/tex; mode=display">
+\mathbb E(\nabla_{ w_i} L(w^{(t)})^2) = \gamma \mathbb E(\nabla_{ w_i} L(w^{(t-1)})^2) + (1-\gamma)\nabla_{ w_i} L(w^{(t)})^2</script><p>可以看到经过一段时间的衰减，离现在时间距离远的梯度信息会慢慢减小，越靠近当前时间，梯度信息占比越大。</p>
+<p>上式的期望与动量有什么区别呢？我觉得除了换了一种赋权方式和从梯度转变为了梯度和之外没什么区别。</p>
+<p>那么与 Adagrad 算法相似，最终的迭代方程为：</p>
+<script type="math/tex; mode=display">
+w_i:=w_i-\frac{ \eta}{ \sqrt{ \mathbb E(\nabla_{ w_i } L(w)^2)+\epsilon } }\Delta w_i</script><p>通常 $\gamma = 0.9$</p>
+<h2 id="AdaDelta"><a href="#AdaDelta" class="headerlink" title="AdaDelta"></a>AdaDelta</h2><p>AdaDelta 算法与上面的 RMSProp 算法同时被提出。AdaDelta 算法不再拥有学习率，而是将他替换成为</p>
+<script type="math/tex; mode=display">
+w_i:=w_i-\sqrt\frac{ {\mathbb E(x)+\epsilon} }{\mathbb E(\nabla_{ w_i} L(w)^2)+\epsilon}\Delta w_i</script><p>其中</p>
+<script type="math/tex; mode=display">
+\mathbb E(x^{(t+1)}) = \gamma \mathbb E(x^{(t)})+(1-\gamma)\left(\frac{  {\mathbb E(x^{(t)})+\epsilon} }{ {\mathbb E(\nabla_{ w_i} L(w)^2)+\epsilon} }\Delta w_i^2\right)</script><p>这样 AdaDelta 算法就不需要依赖全局学习率而做到真正的自适应啦！</p>
+<h2 id="Adam"><a href="#Adam" class="headerlink" title="Adam"></a>Adam</h2><p>Adam 采用了一阶梯度矩估计与二阶梯度矩估计的指数衰减均值 $m_i^{(t)}，v_i^{(t)}$ 作为计算梯度均值于方差的手段，其中</p>
+<script type="math/tex; mode=display">
+m_i^{(t)} = \beta_1m_i^{(t-1)} + (1-\beta_1)\nabla L(w_i)\\
+v_i^{(t)} = \beta_2v_i^{(t-1)} + (1-\beta_2)\nabla^2 L(w_i)</script><p>$m_i^{(t)}$ 可以理解为带有动量的梯度方向，而 $v_i^{(t)}$ 来自于 RMSProp 算法，用来调节自适应优化的大小。</p>
+<p>在算法的启动阶段，会另 $m_i^{(0)}，v_i^{(0)}=0$，这会导致在开始优化时 $m_i^{(0)}，v_i^{(0)}$ 值过小，难以启动。则引入偏差修正：</p>
+<script type="math/tex; mode=display">
+\hat m^{(t)}_i= \frac{m_i^{(t)} }{1-\beta^t_1}\\
+\hat v^{(t)}_i= \frac{v_i^{(t)} }{1-\beta^t_2}</script><p>最终的迭代过程为：</p>
+<script type="math/tex; mode=display">
+w_i^{(t+1)} = w_i^{(t)}-\frac{\eta}{\sqrt{\hat v_i^{(t)} }+\epsilon}m_i^{(t)}</script><p>为什么需要偏差修正呢？当优化刚刚开始时，假设我们得到初始下降梯度 $\nabla L(w_i)$ ，由于 $m_i^{(0)} = 0$，$m_i^{(1)} = 0.1 \times \nabla L(w_i)$，则会使初始优化步长缩小很多，可能会导致优化效果出现偏差，于是需要乘以一个系数来修正这种算法来修正在开始优化时出现的偏差。</p>
+<p><img src="/download.png" style="zoom: 80%;"></p>
+<p>如图，黄色的曲线就是没有偏差修正的结果，在前期会与蓝色曲线（$\mathbb E(\nabla L(w))$）产生较大偏差。</p>
+<p>我们分解 $m^{(t)}$，可以得到：</p>
+<script type="math/tex; mode=display">
+m^{(t)} = (1-\beta_1)\sum_{i=1}^t\beta_1^{t-i}\nabla L(w^{(i)})</script><p>求 $m^{(t)}$ 期望 $\mathbb E(m^{(t)})$：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\mathbb E(m^{(t)}) &= \mathbb E\left((1-\beta_1)\sum_{i=1}^t\beta_1^{t-i}\nabla L(w^{(i)})\right)\\
+&=(1-\beta_1)\left(\beta_1^{t-1} \mathbb E\left(\nabla L(w^{(1)}\right)+ \beta_1^{t-2} \mathbb E\left(\nabla L(w^{(2)}\right) + \dots+\mathbb E\left(\nabla L(w^{(t)}\right)\right)\\
+&=(1-\beta_1)\left(\beta_1^{t-1} \mathbb E\left(\nabla L(w\right)+ \beta_1^{t-2} \mathbb E\left(\nabla L(w)\right) + \dots+\mathbb E\left(\nabla L(w\right)\right)\\
+&= (1-\beta_1)(1+\beta_1+ \beta_1^2 +\dots+\beta_1^{t-1})\mathbb E(\nabla L(w))\\
+&= (1-\beta_1^t)\mathbb E(\nabla L(w))
+\end{align}</script><p>所以，$m$ 是一阶梯度的有偏估计，同理，$v$ 是二阶梯度的有偏估计，而随着迭代步数的增加，两者的偏差会越来越小，采用偏差修正会减小因为偏差在优化开始时对迭代方向的干扰。</p>
+<p>reference:</p>
+<p><a href="https://www.cnblogs.com/cloud-ken/p/7723755.html" target="_blank" rel="noopener">1</a> 、<a href="https://cloud.tencent.com/developer/article/1118665" target="_blank" rel="noopener">2</a> 、<a href="https://www.zhihu.com/question/392235721" target="_blank" rel="noopener">3</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度学习/" rel="tag"><i class="fa fa-tag"></i> 深度学习</a>
+          
+            <a href="/tags/最优化算法/" rel="tag"><i class="fa fa-tag"></i> 最优化算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/01/02/概率图/" rel="next" title="概率图模型(PGM)">
+                <i class="fa fa-chevron-left"></i> 概率图模型(PGM)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar1.jpg" alt="Fangchen Wu">
+            
+              <p class="site-author-name" itemprop="name">Fangchen Wu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/FrozenWu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:lalalafrozen@live.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/2881393720" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/wufangchen95" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Adam-Adaptive-Moment-Estimation"><span class="nav-number">1.</span> <span class="nav-text">Adam(Adaptive Moment Estimation)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SGD-with-Momentum"><span class="nav-number">1.1.</span> <span class="nav-text">SGD with Momentum</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NAG（Nesterov-accelerated-gradient）"><span class="nav-number">1.2.</span> <span class="nav-text">NAG（Nesterov accelerated gradient）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Adagrad"><span class="nav-number">1.3.</span> <span class="nav-text">Adagrad</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RMSProp"><span class="nav-number">1.4.</span> <span class="nav-text">RMSProp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AdaDelta"><span class="nav-number">1.5.</span> <span class="nav-text">AdaDelta</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Adam"><span class="nav-number">1.6.</span> <span class="nav-text">Adam</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fangchen Wu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">全站字数统计&#58;</span>
+    
+    <span title="全站字数统计">64.4k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
